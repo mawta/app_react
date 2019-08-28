@@ -6,3 +6,116 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+$primary-color:#5867C3;
+$header-bg:#fff;
+$header-color:#333;
+$header-padding: 20px 20px;
+$radio-size:15px;
+$content-bg:#fff;
+$content-color:#333;
+$collapse-icon-size: 40px;
+$collapse-icon-color:$primary-color;
+@mixin transition($transition...) {
+  transition: $transition;
+  -webkit-transition: $transition;
+  -moz-transition: $transition;
+}
+
+@mixin border-radius($radius:5%) {
+  border-radius: $radius;
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+}
+
+@mixin transform($transform) {
+  -ms-transform: $transform;
+  -webkit-transform: $transform;
+  -moz-transform: $transform;
+  transform: $transform;
+}
+
+
+// Core Style
+.accordion {
+  width: 100%;
+  @include border-radius();
+  .item {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 3px;
+    border: 1px solid #dddddd;
+    &:hover {
+      label.menulabel {
+        color: $primary-color;
+      }
+    }
+    label.menulabel {
+      width: 100%;
+      background-color: $header-bg;
+      color: $header-color;
+      font-size: 16px;
+      font-weight: 600;
+      display: block;
+      border-bottom: 1px solid #dddddd;
+      cursor: pointer;
+      position: relative;
+      padding: $header-padding;
+      overflow: hidden;
+      &:after {
+        display: none;
+        content: "+";
+        position: absolute;
+        top: 50%;
+        right: 50px;
+        margin-top: -$collapse-icon-size/2;
+        font-size: $collapse-icon-size;
+        color: $collapse-icon-color;
+        @include transition(transform 200ms ease-out);
+      }
+    }
+    input[type="radio"],
+    input[type="checkbox"] {
+      position: absolute;
+      top: $radio-size;
+      right: $radio-size;
+      width: $radio-size;
+      height: $radio-size;
+      border: 0px;
+      z-index: 999;
+      &[hidden] {
+        visiblity: hidden;
+        top: -100%;
+        + label{
+          &:after{
+            display: block
+          }
+        }
+      }
+      &:focus{
+        outline: none;
+      }
+      &:checked {
+        ~.acoordion-content {
+          padding: 10px 20px;
+          height: auto;
+        }
+        + label.menulabel {
+          color: $primary-color;
+          &:after {
+            @include transform(rotate(45deg));
+          }
+        }
+      }
+    }
+    .acoordion-content {
+      padding: 0px 20px;
+      height: 0px;
+      background-color: $content-bg;
+      color: $content-color;
+      overflow: hidden;
+      @include transition(padding 200ms ease-in-out);
+    }
+  }
+}

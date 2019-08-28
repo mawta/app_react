@@ -2,15 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Support;
 use Illuminate\Http\Request;
-
+use App\Traits\CheckTraits;
+use Illuminate\Support\Facades\Mail;
 class HomeController extends Controller
 {
+    use CheckTraits;
     public function index(Request $request){
-        return response()->json([
-            'name' => 'huy',
-            'storeName' => 'storeName',
-            'email' => 'Vuduyhuy97@gmail.com',
-        ]);
+        $user = auth()->user();
+       $name = $this->shopName();
+       $email = $user->email;
+       return view('welcome',compact('name','email'));
     }
+
+    public function fetchHome()
+    {
+        $data = $this->fetch();
+        return response()->json($data);
+    }
+
+    public function sendMail(Request $request)
+    {
+        try{
+            $subject = (string)$request->post('subject');
+            $message = (string)$request->post('message1');
+            $user = auth()->user();
+            Mail::to($user)->send(new Support($user,$message,$subject));
+        }catch (\Exception $e){
+
+        }
+    }
+
 }

@@ -2,24 +2,23 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Event;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
+use App\Listeners\AppInstalledListener;
+use App\Listeners\AppUninstalledHandler;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Secomapp\Events\AppInstalled;
+use Secomapp\Events\AppUninstalled;
 
 class EventServiceProvider extends ServiceProvider
 {
-    /**
-     * The event listener mappings for the application.
-     *
-     * @var array
-     */
+
     protected $listen = [
-        Registered::class => [
-            SendEmailVerificationNotification::class,
+        AppInstalled::class => [
+            AppInstalledListener::class,
+        ],
+        AppUninstalled::class => [
+            AppUninstalledHandler::class,
         ],
     ];
-
     /**
      * Register any events for your application.
      *

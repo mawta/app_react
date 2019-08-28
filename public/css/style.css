@@ -1,0 +1,58 @@
+.secomapp-unsuccess{
+font-size: 1.6rem;
+    font-weight: 600;
+    background: #F4F6F8;
+    padding: 0.5rem;
+    text-align: left;
+    color: #000;
+    border-radius: 5px;
+}
+.secomapp-normal{
+    font-size: 1.6rem;
+    font-weight: 400;
+    padding: 0.5rem;
+    text-align: left;
+    color: #000;
+    border-radius: 5px;
+}
+.secomapp-normal .Polaris-Button__Text {
+    color: #fff;
+}
+
+
+.secomapp-success{
+    font-size: 1.6rem;
+    font-weight: 600;
+    background: #EFF7ED;
+    padding: 0.5rem;
+    text-align: left;
+    color: #000;
+    border-radius: 5px;
+}
+.secomapp-toggle-button {
+    top:0;
+    right: 0;
+}
+
+#secomapp-button-right {
+    left: 50%;
+}
+#secomapp-button-right-large {
+    left: 46%;
+}
+.secomapp-via-text {
+    text-align: right;
+    margin-right: 5%;
+}
+
+#secomapp-btn-fix {
+    float: right;
+}
+
+
+/*FAQ*/
+.item{
+    border-radius: 2%;
+}
+
+

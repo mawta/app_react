@@ -5,7 +5,7 @@ import {
     Card,
     ContextualSaveBar,
     FormLayout,
-    Frame,
+    Frame as AppFrame,
     Layout,
     Loading,
     Modal,
@@ -17,7 +17,12 @@ import {
     TextContainer,
     TextField,
     Toast,
-    TopBar
+    TopBar,
+    Stack,
+    Heading,
+    FooterHelp,
+    Button
+
 } from '@shopify/polaris';
 import {
     ArrowLeftMinor,
@@ -36,11 +41,6 @@ import {
 import axios from "axios";
 
 export default class App extends React.Component {
-    defaultState = {
-        emailFieldValue: 'dharma@jadedpixel.com',
-        nameFieldValue: 'Jaded Pixel',
-    };
-
     state = {
         showToast: false,
         isLoading: false,
@@ -48,26 +48,10 @@ export default class App extends React.Component {
         userMenuOpen: false,
         showMobileNavigation: false,
         modalActive: false,
-        storeName: this.defaultState.nameFieldValue,
         supportSubject: '',
         supportMessage: '',
-        name: '',
-        email: '',
-    };
-
-    componentDidMount() {
-        axios.get(window.Laravel.baseUrl + '/api/index')
-            .then(response => {
-                console.log(window.Laravel.baseUrl + '/api/index');
-                this.setState({
-                    storeName: response.data.storeName,
-                    name: response.data.name,
-                    email: response.data.email,
-                })
-            })
-            .catch(function (error) {
-                console.log(error)
-            })
+        name: window.Laravel.name,
+        email: window.Laravel.email,
     };
 
     render() {
@@ -78,14 +62,14 @@ export default class App extends React.Component {
             userMenuOpen,
             showMobileNavigation,
             modalActive,
-            storeName,
             name,
             email,
         } = this.state;
         const toastMarkup = showToast ? (
             <Toast
                 onDismiss={this.toggleState('showToast')}
-                content="Changes saved"
+                content="Thank you for contact with us 😘!
+                We always answer in few hours please wait "
             />
         ) : null;
 
@@ -124,7 +108,7 @@ export default class App extends React.Component {
                 onNavigationToggle={this.toggleState('showMobileNavigation')}
             />
         );
-        const titleNav = 'Hello ' + this.state.storeName;
+        const titleNav = 'Hello ' + this.state.name;
         const navigationMarkup = (
             <Navigation location="/" userMenu={navigationUserMenuMarkup}>
                 <Navigation.Section
@@ -132,7 +116,6 @@ export default class App extends React.Component {
                     items={[
                         {
                             label: 'Nice to meet you 😊 !',
-                            url: 'secomapp.com',
                         }
                     ]}/>
                 <Navigation.Section
@@ -142,22 +125,29 @@ export default class App extends React.Component {
                         {
                             label: 'Home',
                             icon: HomeMajorMonotone,
-                            url: '/',
+                            url: '/home',
+                            onClick: this.toggleState('isLoading'),
+
                         },
                         {
                             label: 'Audit your store',
                             icon: ResourcesMajorMonotone,
-                            url: '/audit'
+                            url: '/audit',
+                            onClick: this.toggleState('isLoading'),
+
                         },
                         {
                             label: 'Optimize',
                             icon: WandMajorMonotone,
-                            url: '/optimize'
+                            url: '/optimize',
+                            onClick: this.toggleState('isLoading'),
+
                         },
                         {
                             label: 'Test',
                             icon: TroubleshootMajorMonotone,
-                            url: '/test'
+                            url: '/test',
+                            onClick: this.toggleState('isLoading'),
                         },
                     ]}
 
@@ -195,7 +185,7 @@ export default class App extends React.Component {
                 title="Contact support"
                 primaryAction={{
                     content: 'Send',
-                    onAction: this.toggleState('modalActive'),
+                    onAction: this.sendMail,
                 }}
             >
                 <Modal.Section>
@@ -203,6 +193,7 @@ export default class App extends React.Component {
                         <TextField
                             label="Subject"
                             value={this.state.supportSubject}
+                            onChange={this.handleSubjectChange}
                         />
                         <TextField
                             label="Message"
@@ -223,19 +214,18 @@ export default class App extends React.Component {
             },
             logo: {
                 width: 124,
-                topBarSource:
-                    'https://cdn.shopify.com/s/files/1/0446/6937/files/jaded-pixel-logo-color.svg?6215648040070010999',
+                topBarSource: '/images/logo.png',
                 contextualSaveBarSource:
-                    'https://cdn.shopify.com/s/files/1/0446/6937/files/jaded-pixel-logo-gray.svg?6215648040070010999',
-                url: 'http://jadedpixel.com',
-                accessibilityLabel: 'Jaded Pixel',
+                    '/images/logo.png',
+                url: '',
+                accessibilityLabel: 'Secomapp',
             },
         };
 
         return (
             <div style={{height: '500px'}}>
                 <AppProvider theme={theme}>
-                    <Frame
+                    <AppFrame
                         topBar={topBarMarkup}
                         navigation={navigationMarkup}
                         showMobileNavigation={showMobileNavigation}
@@ -243,13 +233,63 @@ export default class App extends React.Component {
                     >
                         {loadingMarkup}
                         {this.props.children}
+                        <Stack vertical={true} spacing="tight" alignment="center">
+                            <Stack.Item fill>
+                                <div className={"image-wrapper mb-1_5"}>
+                                    <img src="/images/shopify-review.svg" alt={""}/>
+                                </div>
+                            </Stack.Item>
+                            <Stack.Item>
+                                <Heading>How do you feel about ours app?</Heading>
+                            </Stack.Item>
+                            <Stack.Item>
+                                <div>Kindly leave us a Review! Thank You 😍</div>
+                            </Stack.Item>
+                            <Stack.Item>
+                                <Button
+                                    url={"https://apps.shopify.com/json-ld-for-seo-1?#modal-show=ReviewListingModal"}>Leave
+                                    a review</Button>
+                            </Stack.Item>
+                        </Stack>
+                        <Layout.Section>
+                            <FooterHelp>
+                                Explore more apps from {" "}
+                                <Link url="https://apps.shopify.com/partners/secomapp" external>
+                                    Secomapp
+                                </Link>
+                                .
+                            </FooterHelp>
+                        </Layout.Section>
                         {toastMarkup}
                         {modalMarkup}
-                    </Frame>
+
+                    </AppFrame>
                 </AppProvider>
             </div>
         );
     }
+    setHeaderAxio = () => {
+        axios.defaults.headers.common = {
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRF-TOKEN': window.Laravel.csrfToken,
+
+        };
+    };
+
+    sendMail = () => {
+
+        this.setHeaderAxio();
+        axios.post(window.Laravel.baseUrl + '/api/send-mail',{
+            subject: this.state.supportSubject,
+            message1: this.state.supportMessage,
+        })
+            .then(response => {
+                this.setState(({modalActive,showToast}) => ({modalActive: !modalActive, showToast: !showToast}));
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
+    };
 
     toggleState = (key) => {
         return () => {
@@ -259,5 +299,8 @@ export default class App extends React.Component {
 
     handleMessageChange = (supportMessage) => {
         this.setState({supportMessage});
+    };
+    handleSubjectChange = (supportSubject) => {
+        this.setState({supportSubject});
     };
 }

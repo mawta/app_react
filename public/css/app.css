@@ -10602,3 +10602,104 @@ a.text-dark:focus {
   }
 }
 
+.accordion {
+  width: 100%;
+  border-radius: 5%;
+  -webkit-border-radius: 5%;
+  -moz-border-radius: 5%;
+}
+
+.accordion .item {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 3px;
+  border: 1px solid #dddddd;
+}
+
+.accordion .item:hover label.menulabel {
+  color: #5867C3;
+}
+
+.accordion .item label.menulabel {
+  width: 100%;
+  background-color: #fff;
+  color: #333;
+  font-size: 16px;
+  font-weight: 600;
+  display: block;
+  border-bottom: 1px solid #dddddd;
+  cursor: pointer;
+  position: relative;
+  padding: 20px 20px;
+  overflow: hidden;
+}
+
+.accordion .item label.menulabel:after {
+  display: none;
+  content: "+";
+  position: absolute;
+  top: 50%;
+  right: 50px;
+  margin-top: -20px;
+  font-size: 40px;
+  color: #5867C3;
+  transition: transform 200ms ease-out;
+  -webkit-transition: transform 200ms ease-out;
+  -moz-transition: transform 200ms ease-out;
+}
+
+.accordion .item input[type=radio],
+.accordion .item input[type=checkbox] {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 15px;
+  height: 15px;
+  border: 0px;
+  z-index: 999;
+}
+
+.accordion .item input[type=radio][hidden],
+.accordion .item input[type=checkbox][hidden] {
+  visiblity: hidden;
+  top: -100%;
+}
+
+.accordion .item input[type=radio][hidden] + label:after,
+.accordion .item input[type=checkbox][hidden] + label:after {
+  display: block;
+}
+
+.accordion .item input[type=radio]:focus,
+.accordion .item input[type=checkbox]:focus {
+  outline: none;
+}
+
+.accordion .item input[type=radio]:checked ~ .acoordion-content,
+.accordion .item input[type=checkbox]:checked ~ .acoordion-content {
+  padding: 10px 20px;
+  height: auto;
+}
+
+.accordion .item input[type=radio]:checked + label.menulabel,
+.accordion .item input[type=checkbox]:checked + label.menulabel {
+  color: #5867C3;
+}
+
+.accordion .item input[type=radio]:checked + label.menulabel:after,
+.accordion .item input[type=checkbox]:checked + label.menulabel:after {
+  transform: rotate(45deg);
+}
+
+.accordion .item .acoordion-content {
+  padding: 0px 20px;
+  height: 0px;
+  background-color: #fff;
+  color: #333;
+  overflow: hidden;
+  transition: padding 200ms ease-in-out;
+  -webkit-transition: padding 200ms ease-in-out;
+  -moz-transition: padding 200ms ease-in-out;
+}
+

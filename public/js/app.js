@@ -77291,13 +77291,10 @@ module.exports = function(module) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_App__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/App */ "./resources/js/components/App.js");
 /* harmony import */ var _components_Audit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Audit */ "./resources/js/components/Audit.js");
-/* harmony import */ var _components_Audit__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_components_Audit__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _components_FAQ__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/FAQ */ "./resources/js/components/FAQ.js");
 /* harmony import */ var _components_FAQ__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_components_FAQ__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _components_Optimize__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Optimize */ "./resources/js/components/Optimize.js");
-/* harmony import */ var _components_Optimize__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_components_Optimize__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _components_Test__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Test */ "./resources/js/components/Test.js");
-/* harmony import */ var _components_Test__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_components_Test__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _components_Home__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Home */ "./resources/js/components/Home.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_6__);
@@ -77338,18 +77335,21 @@ Object(react_dom__WEBPACK_IMPORTED_MODULE_7__["render"])(react__WEBPACK_IMPORTED
   history: history
 }, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Route"], {
   path: "/audit",
-  component: _components_Audit__WEBPACK_IMPORTED_MODULE_1___default.a
+  component: _components_Audit__WEBPACK_IMPORTED_MODULE_1__["default"]
 }), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Route"], {
   path: "/faq",
   component: _components_FAQ__WEBPACK_IMPORTED_MODULE_2___default.a
 }), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Route"], {
   path: "/optimize",
-  component: _components_Optimize__WEBPACK_IMPORTED_MODULE_3___default.a
+  component: _components_Optimize__WEBPACK_IMPORTED_MODULE_3__["default"]
 }), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Route"], {
   path: "/test",
-  component: _components_Test__WEBPACK_IMPORTED_MODULE_4___default.a
+  component: _components_Test__WEBPACK_IMPORTED_MODULE_4__["default"]
 }), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Route"], {
-  path: "/",
+  path: "/home",
+  component: _components_Home__WEBPACK_IMPORTED_MODULE_5__["default"]
+}), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Route"], {
+  path: "",
   component: _components_Home__WEBPACK_IMPORTED_MODULE_5__["default"]
 }))), document.getElementById('app'));
 
@@ -77417,11 +77417,6 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(App)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
-    _defineProperty(_assertThisInitialized(_this), "defaultState", {
-      emailFieldValue: 'dharma@jadedpixel.com',
-      nameFieldValue: 'Jaded Pixel'
-    });
-
     _defineProperty(_assertThisInitialized(_this), "state", {
       showToast: false,
       isLoading: false,
@@ -77429,11 +77424,37 @@ function (_React$Component) {
       userMenuOpen: false,
       showMobileNavigation: false,
       modalActive: false,
-      storeName: _this.defaultState.nameFieldValue,
       supportSubject: '',
       supportMessage: '',
-      name: '',
-      email: ''
+      name: window.Laravel.name,
+      email: window.Laravel.email
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "setHeaderAxio", function () {
+      axios__WEBPACK_IMPORTED_MODULE_4___default.a.defaults.headers.common = {
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-CSRF-TOKEN': window.Laravel.csrfToken
+      };
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "sendMail", function () {
+      _this.setHeaderAxio();
+
+      axios__WEBPACK_IMPORTED_MODULE_4___default.a.post(window.Laravel.baseUrl + '/api/send-mail', {
+        subject: _this.state.supportSubject,
+        message1: _this.state.supportMessage
+      }).then(function (response) {
+        _this.setState(function (_ref) {
+          var modalActive = _ref.modalActive,
+              showToast = _ref.showToast;
+          return {
+            modalActive: !modalActive,
+            showToast: !showToast
+          };
+        });
+      })["catch"](function (error) {
+        console.log(error);
+      });
     });
 
     _defineProperty(_assertThisInitialized(_this), "toggleState", function (key) {
@@ -77450,27 +77471,16 @@ function (_React$Component) {
       });
     });
 
+    _defineProperty(_assertThisInitialized(_this), "handleSubjectChange", function (supportSubject) {
+      _this.setState({
+        supportSubject: supportSubject
+      });
+    });
+
     return _this;
   }
 
   _createClass(App, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      axios__WEBPACK_IMPORTED_MODULE_4___default.a.get(window.Laravel.baseUrl + '/api/index').then(function (response) {
-        console.log(window.Laravel.baseUrl + '/api/index');
-
-        _this2.setState({
-          storeName: response.data.storeName,
-          name: response.data.name,
-          email: response.data.email
-        });
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    }
-  }, {
     key: "render",
     value: function render() {
       var _this$state = this.state,
@@ -77480,12 +77490,11 @@ function (_React$Component) {
           userMenuOpen = _this$state.userMenuOpen,
           showMobileNavigation = _this$state.showMobileNavigation,
           modalActive = _this$state.modalActive,
-          storeName = _this$state.storeName,
           name = _this$state.name,
           email = _this$state.email;
       var toastMarkup = showToast ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["Toast"], {
         onDismiss: this.toggleState('showToast'),
-        content: "Changes saved"
+        content: "Thank you for contact with us \uD83D\uDE18! We always answer in few hours please wait "
       }) : null;
       var userMenuActions = [{
         items: [{
@@ -77512,15 +77521,14 @@ function (_React$Component) {
         onSearchResultsDismiss: this.handleSearchResultsDismiss,
         onNavigationToggle: this.toggleState('showMobileNavigation')
       });
-      var titleNav = 'Hello ' + this.state.storeName;
+      var titleNav = 'Hello ' + this.state.name;
       var navigationMarkup = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["Navigation"], {
         location: "/",
         userMenu: navigationUserMenuMarkup
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["Navigation"].Section, {
         title: titleNav,
         items: [{
-          label: 'Nice to meet you 😊 !',
-          url: 'secomapp.com'
+          label: 'Nice to meet you 😊 !'
         }]
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["Navigation"].Section, {
         separator: true,
@@ -77528,19 +77536,23 @@ function (_React$Component) {
         items: [{
           label: 'Home',
           icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_2__["HomeMajorMonotone"],
-          url: '/'
+          url: '/home',
+          onClick: this.toggleState('isLoading')
         }, {
           label: 'Audit your store',
           icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_2__["ResourcesMajorMonotone"],
-          url: '/audit'
+          url: '/audit',
+          onClick: this.toggleState('isLoading')
         }, {
           label: 'Optimize',
           icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_2__["WandMajorMonotone"],
-          url: '/optimize'
+          url: '/optimize',
+          onClick: this.toggleState('isLoading')
         }, {
           label: 'Test',
           icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_2__["TroubleshootMajorMonotone"],
-          url: '/test'
+          url: '/test',
+          onClick: this.toggleState('isLoading')
         }]
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["Navigation"].Section, {
         separator: true,
@@ -77567,11 +77579,12 @@ function (_React$Component) {
         title: "Contact support",
         primaryAction: {
           content: 'Send',
-          onAction: this.toggleState('modalActive')
+          onAction: this.sendMail
         }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["Modal"].Section, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["FormLayout"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["TextField"], {
         label: "Subject",
-        value: this.state.supportSubject
+        value: this.state.supportSubject,
+        onChange: this.handleSubjectChange
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["TextField"], {
         label: "Message",
         value: this.state.supportMessage,
@@ -77586,10 +77599,10 @@ function (_React$Component) {
         },
         logo: {
           width: 124,
-          topBarSource: 'https://cdn.shopify.com/s/files/1/0446/6937/files/jaded-pixel-logo-color.svg?6215648040070010999',
-          contextualSaveBarSource: 'https://cdn.shopify.com/s/files/1/0446/6937/files/jaded-pixel-logo-gray.svg?6215648040070010999',
-          url: 'http://jadedpixel.com',
-          accessibilityLabel: 'Jaded Pixel'
+          topBarSource: '/images/logo.png',
+          contextualSaveBarSource: '/images/logo.png',
+          url: '',
+          accessibilityLabel: 'Secomapp'
         }
       };
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -77603,7 +77616,23 @@ function (_React$Component) {
         navigation: navigationMarkup,
         showMobileNavigation: showMobileNavigation,
         onNavigationDismiss: this.toggleState('showMobileNavigation')
-      }, loadingMarkup, this.props.children, toastMarkup, modalMarkup)));
+      }, loadingMarkup, this.props.children, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["Stack"], {
+        vertical: true,
+        spacing: "tight",
+        alignment: "center"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["Stack"].Item, {
+        fill: true
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "image-wrapper mb-1_5"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: "/images/shopify-review.svg",
+        alt: ""
+      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["Stack"].Item, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["Heading"], null, "How do you feel about ours app?")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["Stack"].Item, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Kindly leave us a Review! Thank You \uD83D\uDE0D")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["Stack"].Item, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["Button"], {
+        url: "https://apps.shopify.com/json-ld-for-seo-1?#modal-show=ReviewListingModal"
+      }, "Leave a review"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["Layout"].Section, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["FooterHelp"], null, "Explore more apps from ", " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
+        url: "https://apps.shopify.com/partners/secomapp",
+        external: true
+      }, "Secomapp"), ".")), toastMarkup, modalMarkup)));
     }
   }]);
 
@@ -77618,10 +77647,202 @@ function (_React$Component) {
 /*!******************************************!*\
   !*** ./resources/js/components/Audit.js ***!
   \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @shopify/polaris-icons */ "./node_modules/@shopify/polaris-icons/index.es.js");
+/* harmony import */ var _shopify_polaris__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @shopify/polaris */ "./node_modules/@shopify/polaris/index.es.js");
+/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./App */ "./resources/js/components/App.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
+
+
+
+
+
+
+
+var Audit =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(Audit, _Component);
+
+  function Audit(props) {
+    var _this;
+
+    _classCallCheck(this, Audit);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Audit).call(this, props));
+
+    _defineProperty(_assertThisInitialized(_this), "state", {
+      isAudit: true,
+      loading: false,
+      message: '',
+      isScan: true,
+      open: '',
+      showToast: false,
+      page: ''
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "setHeaderAxio", function () {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.headers.common = {
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-CSRF-TOKEN': window.Laravel.csrfToken
+      };
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "_toggleToast", function () {
+      _this.setState(function (_ref) {
+        var showToast = _ref.showToast;
+        return {
+          showToast: !showToast
+        };
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "refresh", function (e, value) {
+      e.style.setProperty('--percent', value);
+      e.style.setProperty('--offset', 28.2743280 * Math.max(0, 1 - value * .01));
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "bind", function (per) {
+      var slider = document.getElementById('percent');
+      var visual = document.getElementById(slider.dataset.visual);
+
+      _this.refresh(visual, per);
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "scan", function () {
+      _this.setState(function (_ref2) {
+        var showToast = _ref2.showToast;
+        return {
+          showToast: !showToast,
+          message: "Great! we are scanning your site, just wait a few minute. ",
+          isScan: true
+        };
+      });
+
+      _this.setHeaderAxio();
+
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(window.Laravel.baseUrl + '/api/scan-audit').then(function (response) {})["catch"](function (error) {
+        console.log(error);
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "checkAudit", function () {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _this.state.isAudit ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "secomapp-success"
+      }, "\u2705 \xA0\xA0\xA0 Wanna see your site change? just click \uD83D\uDC49", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Button"], {
+        primary: true,
+        icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_3__["SettingsMajorMonotone"],
+        id: "secomapp-btn-fix",
+        onClick: _this.scan,
+        loading: _this.state.isScan
+      }, "Re Scan")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "secomapp-unsuccess"
+      }, "\u274C \xA0\xA0\xA0 Scan to see your site as google", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Button"], {
+        primary: true,
+        icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_3__["SettingsMajorMonotone"],
+        id: "secomapp-btn-fix",
+        onClick: _this.scan,
+        loading: _this.state.isScan
+      }, "Scan")));
+    });
+
+    return _this;
+  }
+
+  _createClass(Audit, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      this.setHeaderAxio();
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(window.Laravel.baseUrl + '/api/get_audit').then(function (response) {
+        _this2.setState({
+          isScan: response.data.isScan,
+          isAudit: response.data.isAudit,
+          page: response.data.page
+        });
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$state = this.state,
+          showToast = _this$state.showToast,
+          message = _this$state.message;
+      var toastMarkup = showToast ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Toast"], {
+        content: message,
+        onDismiss: this.toggleToast,
+        duration: 2500
+      }) : null;
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_App__WEBPACK_IMPORTED_MODULE_5__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Page"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        style: {
+          marginBottom: '3%',
+          marginTop: '3%'
+        }
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Card"], {
+        title: "Check your site with google search engine",
+        sectioned: true
+      }, this.checkAudit()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        style: {
+          marginBottom: '3%',
+          marginTop: '3%',
+          height: '1080px'
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("iframe", {
+        width: "100%",
+        height: "100%",
+        style: {
+          border: 'none'
+        },
+        src: this.state.page
+      })), toastMarkup));
+    }
+  }, {
+    key: "toggleToast",
+    get: function get() {
+      return this._toggleToast;
+    },
+    set: function set(value) {
+      this._toggleToast = value;
+    } // Change the value shown
+
+  }]);
+
+  return Audit;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (Audit);
 
 /***/ }),
 
@@ -77739,13 +77960,16 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -77765,34 +77989,184 @@ function (_Component) {
     _classCallCheck(this, Home);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Home).call(this, props));
-    _this.state = {
-      data: ''
-    };
-    return _this;
-  } // componentDidMount () {
-  //     axios.get(window.Laravel.baseUrl + '/api/home')
-  //         .then(response => {
-  //             this.setState({ data: response.data })
-  //         })
-  //         .catch(function (error) {
-  //             console.log(error)
-  //         })
-  // }
 
+    _defineProperty(_assertThisInitialized(_this), "state", {
+      isJson: '',
+      loading: false,
+      googleSiteVerification: '',
+      googleAnalytics: '',
+      open: '',
+      isTitle: '',
+      titleDes: '',
+      desDes: '',
+      isDes: ''
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "setHeaderAxio", function () {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.headers.common = {
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-CSRF-TOKEN': window.Laravel.csrfToken
+      };
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "isProblem", function () {
+      return _this.state.isJson == false || _this.state.googleSiteVerification == false || _this.state.googleAnalytics == false || _this.state.isTitle == false || _this.state.isDes == false ? true : false;
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "redirectToTarget", function (target) {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Redirect"], {
+        to: target
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "checkJson", function () {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _this.state.isJson ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "secomapp-success"
+      }, "\u2705 \xA0\xA0\xA0 JSON LD is enable for your store") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "secomapp-unsuccess"
+      }, "\u274C \xA0\xA0\xA0 JSON LD is not enable for your store"));
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "checkWebmasterTool", function () {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _this.state.googleSiteVerification ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "secomapp-success"
+      }, "\u2705 \xA0\xA0\xA0 Google Webmaster Tool is connected") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "secomapp-unsuccess"
+      }, "\u274C \xA0\xA0\xA0 Google Webmaster Tool not connected"));
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "checkAnalytic", function () {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _this.state.googleAnalytics ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "secomapp-success"
+      }, "\u2705 \xA0\xA0\xA0 Google Analytics is connected") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "secomapp-unsuccess"
+      }, "\u274C \xA0\xA0\xA0 Google Analytics not connected"));
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "checkTitle", function () {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _this.state.isTitle ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "secomapp-success"
+      }, "\u2705 \xA0\xA0\xA0 ", _this.state.titleDes) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "secomapp-unsuccess"
+      }, "\u274C \xA0\xA0\xA0 ", _this.state.titleDes));
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "checkDes", function () {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _this.state.isDes ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "secomapp-success"
+      }, "\u2705 \xA0\xA0\xA0 ", _this.state.desDes) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "secomapp-unsuccess"
+      }, "\u274C \xA0\xA0\xA0 ", _this.state.desDes));
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "checkProblem", function () {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _this.isProblem() ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, " Seem like you have some problem?  ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Button"], {
+        primary: true,
+        id: "secomapp-button-right",
+        url: "/optimize"
+      }, "Fix it"), " ") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, " Great! your SEO is almost perfect ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Button"], {
+        primary: true,
+        id: "secomapp-button-right-large",
+        url: "/optimize"
+      }, "Do the rest")));
+    });
+
+    return _this;
+  }
 
   _createClass(Home, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      this.setHeaderAxio();
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(window.Laravel.baseUrl + '/api/get_home').then(function (response) {
+        _this2.setState({
+          isJson: response.data.isJson,
+          googleAnalytics: response.data.googleAnalytics,
+          googleSiteVerification: response.data.googleSiteVerification,
+          titleDes: response.data.titleDes,
+          isTitle: response.data.isTitle,
+          desDes: response.data.desDes,
+          isDes: response.data.isDes
+        });
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_App__WEBPACK_IMPORTED_MODULE_5__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Page"], {
-        title: "Start optimizing your SEO with our help by following \uD83D\uDC47"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Layout"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Layout"].AnnotatedSection, {
+        title: "Welcome back , we're so glad you're here \uD83D\uDE07!"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        style: {
+          marginBottom: '3%',
+          marginTop: '3%'
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Banner"], {
+        status: "success",
+        action: {
+          content: '⚡ Read ours docs'
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        style: {
+          fontSize: '2.5rem',
+          fontWeight: '600'
+        }
+      }, "Start optimizing your SEO with our help by following \uD83D\uDC47"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Layout"], {
+        separator: true
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Layout"].AnnotatedSection, {
         title: "Let see what we can do \uD83D\uDE09"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Card"], {
         sectioned: true
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Banner"], {
-        title: "JSON LD is enable for your store.",
-        status: "success"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null))))));
+      }, this.checkJson(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.checkAnalytic(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.checkWebmasterTool(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.checkTitle(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.checkDes(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.checkProblem()))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Layout"], {
+        separator: true
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Layout"].AnnotatedSection, {
+        title: "Frequently Asked Questions"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Card"], {
+        sectioned: true
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "accordion"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "item"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        id: "accordionc1",
+        type: "checkbox",
+        name: "accordionc",
+        hidden: "hidden"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        className: "menulabel",
+        htmlFor: "accordionc1"
+      }, "Q: What are Alt tags and how can they help my store?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "acoordion-content"
+      }, "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit nulla non laboriosam accusamus ex neque sit. Corporis in expedita optio ducimus, id illo, iure hic officia quam qui sapiente veniam!")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "item"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        id: "accordionc2",
+        hidden: "hidden",
+        type: "checkbox",
+        name: "accordionc"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        className: "menulabel",
+        htmlFor: "accordionc2"
+      }, "Accordion2"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "acoordion-content"
+      }, "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit nulla non laboriosam accusamus ex neque sit. Corporis in expedita optio ducimus, id illo, iure hic officia quam qui sapiente veniam!")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "item"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        id: "accordionc3",
+        hidden: "hidden",
+        type: "checkbox",
+        name: "accordionc"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        className: "menulabel",
+        htmlFor: "accordionc3"
+      }, "Accordion3"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "acoordion-content"
+      }, "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit nulla non laboriosam accusamus ex neque sit. Corporis in expedita optio ducimus, id illo, iure hic officia quam qui sapiente veniam!"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        href: "/faq"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Read more")))))));
     }
   }]);
 
@@ -77807,10 +78181,515 @@ function (_Component) {
 /*!*********************************************!*\
   !*** ./resources/js/components/Optimize.js ***!
   \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @shopify/polaris-icons */ "./node_modules/@shopify/polaris-icons/index.es.js");
+/* harmony import */ var _shopify_polaris__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @shopify/polaris */ "./node_modules/@shopify/polaris/index.es.js");
+/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./App */ "./resources/js/components/App.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
+
+
+
+
+
+
+
+var Optimize =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(Optimize, _Component);
+
+  function Optimize(props) {
+    var _this;
+
+    _classCallCheck(this, Optimize);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Optimize).call(this, props));
+
+    _defineProperty(_assertThisInitialized(_this), "setHeaderAxio", function () {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.headers.common = {
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-CSRF-TOKEN': window.Laravel.csrfToken
+      };
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "_toggleToast", function () {
+      _this.setState(function (_ref) {
+        var showToast = _ref.showToast;
+        return {
+          showToast: !showToast
+        };
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "handleTabChange", function (selectedTabIndex) {
+      _this.setState({
+        selected: selectedTabIndex
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "fixJson", function () {
+      _this.setHeaderAxio();
+
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(window.Laravel.baseUrl + '/api/set-json-ld').then(function () {
+        _this.setState(function (_ref2) {
+          var showToast = _ref2.showToast;
+          return {
+            showToast: !showToast,
+            message: "Great! Json LD is enable for your site. ",
+            isJson: true
+          };
+        });
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "checkJson", function () {
+      if (_this.state.isJson) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "secomapp-success"
+        }, "\u2705 \xA0\xA0\xA0 JSON LD is enable for your store"));
+      } else {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "secomapp-unsuccess"
+        }, "\u274C \xA0\xA0\xA0 JSON LD is not enable for your store", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Button"], {
+          primary: true,
+          icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_3__["SettingsMajorMonotone"],
+          id: "secomapp-btn-fix",
+          onClick: _this.fixJson
+        }, "Fix it")));
+      }
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "fixTitle", function () {
+      _this.setState(function (_ref3) {
+        var showToast = _ref3.showToast;
+        return {
+          showToast: !showToast,
+          message: "Great! Your title is now beautiful. ",
+          isTitle: true,
+          titleDes: "Your title is pretty good"
+        };
+      });
+
+      _this.setHeaderAxio();
+
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(window.Laravel.baseUrl + '/api/set-title').then(function () {})["catch"](function (error) {
+        console.log(error);
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "checkTitle", function () {
+      if (_this.state.isTitle) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "secomapp-success"
+        }, "\u2705 \xA0\xA0\xA0 ", _this.state.titleDes));
+      } else {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "secomapp-unsuccess"
+        }, "\u274C \xA0\xA0\xA0 ", _this.state.titleDes, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Button"], {
+          primary: true,
+          icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_3__["SettingsMajorMonotone"],
+          id: "secomapp-btn-fix",
+          onClick: _this.fixTitle
+        }, "Fix it")));
+      }
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "checkWebmasterTool", function () {
+      if (_this.state.googleSiteVerification) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "secomapp-success"
+        }, "\u2705 \xA0\xA0\xA0 Google Webmaster Tool is connected"));
+      } else {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "secomapp-unsuccess"
+        }, "\u274C \xA0\xA0\xA0 Google Webmaster Tool not connected"));
+      }
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "checkAnalytic", function () {
+      if (_this.state.googleAnalytics) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "secomapp-success"
+        }, "\u2705 \xA0\xA0\xA0 Google Analytics is connected"));
+      } else {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "secomapp-unsuccess"
+        }, "\u274C \xA0\xA0\xA0 Google Analytics not connected"));
+      }
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "fixDes", function () {
+      _this.setState(function (_ref4) {
+        var showToast = _ref4.showToast;
+        return {
+          showToast: !showToast,
+          message: "Great! Your description is now beautiful. ",
+          isDes: true,
+          desDes: "Your description is pretty good"
+        };
+      });
+
+      _this.setHeaderAxio();
+
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(window.Laravel.baseUrl + '/api/set-description').then(function () {})["catch"](function (error) {
+        console.log(error);
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "checkDes", function () {
+      if (_this.state.isDes) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "secomapp-success"
+        }, "\u2705 \xA0\xA0\xA0 ", _this.state.desDes));
+      } else {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "secomapp-unsuccess"
+        }, "\u274C \xA0\xA0\xA0 ", _this.state.desDes, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Button"], {
+          primary: true,
+          icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_3__["SettingsMajorMonotone"],
+          id: "secomapp-btn-fix",
+          onClick: _this.fixDes
+        }, "Fix it")));
+      }
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "fixSitemap", function () {
+      _this.setState(function (_ref5) {
+        var showToast = _ref5.showToast;
+        return {
+          showToast: !showToast,
+          message: "Great! Google is now knowing you. ",
+          isSitemap: true
+        };
+      });
+
+      _this.setHeaderAxio();
+
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(window.Laravel.baseUrl + '/api/set-sitemap').then(function () {})["catch"](function (error) {
+        console.log(error);
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "checkSitemap", function () {
+      if (_this.state.isSitemap) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "secomapp-success"
+        }, "\u2705 \xA0\xA0\xA0 Your sitemap has been submitted "));
+      } else {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "secomapp-unsuccess"
+        }, "\u274C \xA0\xA0\xA0 Your sitemap need to be submitted", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Button"], {
+          primary: true,
+          icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_3__["SettingsMajorMonotone"],
+          id: "secomapp-btn-fix",
+          onClick: _this.fixSitemap
+        }, "Submit")));
+      }
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "reScan", function () {
+      _this.setState(function (_ref6) {
+        var showToast = _ref6.showToast;
+        return {
+          showToast: !showToast,
+          message: "Great! we are scanning broken link for you, just wait a few minute. ",
+          isScan: true
+        };
+      });
+
+      _this.setHeaderAxio();
+
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(window.Laravel.baseUrl + '/api/rescan-link').then(function () {})["catch"](function (error) {
+        console.log(error);
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "scanLink", function () {
+      _this.setState(function (_ref7) {
+        var showToast = _ref7.showToast;
+        return {
+          showToast: !showToast,
+          message: "Great! we are scanning broken link for you, just wait a few minute. ",
+          isScan: true
+        };
+      });
+
+      _this.setHeaderAxio();
+
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(window.Laravel.baseUrl + '/api/scan-link').then(function () {})["catch"](function (error) {
+        console.log(error);
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "fixBroken", function () {});
+
+    _defineProperty(_assertThisInitialized(_this), "checkBrokenLink", function () {
+      if (_this.state.isCrawled) {
+        if (_this.state.brokenLinks == 0) {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "secomapp-success"
+          }, "\u2705 \xA0\xA0\xA0 You have no broken Links", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Button"], {
+            primary: true,
+            icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_3__["SettingsMajorMonotone"],
+            id: "secomapp-btn-fix",
+            onClick: _this.reScan,
+            loading: _this.state.isScan
+          }, "Re Scan")));
+        } else {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "secomapp-unsuccess"
+          }, "\u274C \xA0\xA0\xA0 We have found ", _this.state.brokenLinks, " broken links on your site!", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Button"], {
+            primary: true,
+            icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_3__["SettingsMajorMonotone"],
+            id: "secomapp-btn-fix",
+            onClick: _this.reScan,
+            loading: _this.state.isScan
+          }, "Re Scan")));
+        }
+      } else {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "secomapp-unsuccess"
+        }, "\u274C \xA0\xA0\xA0 Let click \"Scan\" button to scan broken links on your site!", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Button"], {
+          primary: true,
+          icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_3__["SettingsMajorMonotone"],
+          id: "secomapp-btn-fix",
+          onClick: _this.scanLink,
+          loading: _this.state.isScan
+        }, "Scan")));
+      }
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "tabMarkup", function (index) {
+      if (index == 0) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _this.checkJson()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["TextContainer"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          style: {
+            fontSize: "19px"
+          }
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "What is Json LD? ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "JSON-LD is a lightweight Linked Data format. It is easy for humans to read and write.", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "It is based on the already successful JSON format and provides a way to help JSON data interoperate at Web-scale.", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "JSON-LD is an ideal data format for programming environments, REST Web services, and unstructured databases"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Google and some other search engine use this as a factor to rank in their search results ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "secomapp-via-text"
+        }, "(source: https://json-ld.org/)")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          style: {
+            fontSize: "19px"
+          }
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "What is this app going to do? ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "We're going to add Json LD to all your store front and products page"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Instead of you doing this manually (which can take hours)- we're going to do this for you automatically in a click \uD83D\uDE0A ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), " And as a bonus - ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "it's 100% FREE!")))));
+      } else if (index == 1) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _this.checkTitle()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["TextContainer"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          style: {
+            fontSize: "19px"
+          }
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Why title is so important? ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "A title tag is an HTML element that specifies the title of a web page.", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Title tags are displayed on search engine results pages (SERPs) as the clickable headline for a given result, and are important for usability, SEO, and social sharing."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Google and some other search engine use this as a factor to rank in their search results ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "secomapp-via-text"
+        }, "(source: https://moz.com/learn/seo/title-tag)")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          style: {
+            fontSize: "19px"
+          }
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "What is this app going to do? ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "We're going to fix your title in every single page of your store"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Instead of you doing this manually (which can take hours)- we're going to do this for you automatically in a click \uD83D\uDE0A", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), " And as a bonus - ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "it's 100% FREE!")))));
+      } else if (index == 2) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _this.checkDes()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["TextContainer"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          style: {
+            fontSize: "19px"
+          }
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "What is a meta description tag? ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "The meta description is an HTML attribute that provides a brief summary of a web page. ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Search engines such as Google often display the meta description\u2014typically up to 160 characters long\u2014in search results where they can highly influence user click-through rates."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Google and some other search engine use this as a factor to rank in their search results ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "secomapp-via-text"
+        }, "(source: https://moz.com/learn/seo/meta-description)")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          style: {
+            fontSize: "19px"
+          }
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "What is this app going to do? ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "We're going to fix your description tag in every single page of your store"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Instead of you doing this manually (which can take hours)- we're going to do this for you automatically in a click \uD83D\uDE0A", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), " And as a bonus - ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "it's 100% FREE!")))));
+      } else if (index == 3) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _this.checkSitemap()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["TextContainer"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          style: {
+            fontSize: "19px"
+          }
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "What is a sitemap? ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "A sitemap is a file where you provide information about the pages, videos, and other files on your site, and the relationships between them. Search engines like Google read this file to more intelligently crawl your site. A sitemap tells the crawler which files you think are important in your site, and also provides valuable information about these files: for example, for pages, when the page was last updated, how often the page is changed, and any alternate language versions of a page."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Google and some other search engine use this as a factor to rank in their search results ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "secomapp-via-text"
+        }, "(source: https://support.google.com/webmasters/answer/156184)")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          style: {
+            fontSize: "19px"
+          }
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "What is this app going to do? ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "We're going to submit your sitemap to google."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Instead of you doing this manually (which can take hours)- we're going to do this for you automatically in a click \uD83D\uDE0A", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), " And as a bonus - ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "it's 100% FREE!")))));
+      } else if (index == 4) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _this.checkAnalytic(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), _this.checkWebmasterTool()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["TextContainer"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          style: {
+            fontSize: "19px"
+          }
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "What is Google webmaster tool? ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Google Search Console (previously Webmaster tool) allows to know if your site is infected with malware. It also allows you to communicate with google and adjust aspects of how Google see your websites, such as Internal & External links, by typing which keyword user land on your site, adjust crawling and indexing of your website, click rate of keywords and many more."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          style: {
+            fontSize: "19px"
+          }
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "What is Google Analytics? ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Google analytics is used to track the website activity of the users such as session duration, pages per session, bounce rate etc. along with the information on the source of the traffic. It can be integrated with Google Ads, with which users can review online campaigns by tracking landing page quality and conversions (goals). Goals might include sales, lead generation, viewing a specific page, or downloading a particular file. Google Analytics' approach is to show high-level, dashboard-type data for the casual user, and more in-depth data further into the report set. Google Analytics analysis can identify poorly performing pages with techniques such as funnel visualization, where visitors came from (referrers), how long they stayed on the website and their geographical position. It also provides more advanced features, including custom visitor segmentation. Google Analytics e-commerce reporting can track sales activity and performance. The e-commerce reports shows a site's transactions, revenue, and many other commerce-related metrics."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Google search engine use this as a factor to rank in their search results ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "secomapp-via-text"
+        }, "(source: https://en.wikipedia.org/wiki/Google_Analytics)")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          style: {
+            fontSize: "19px"
+          }
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "How to Set up Google Analytics and Google webmaster tool? ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Set up Google Analytics "), "is very simple and you an do it by follow some step ", ' ', react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+          url: "https://help.shopify.com/en/manual/reports-and-analytics/google-analytics/google-analytics-setup"
+        }, "in here"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "With Google webmaster tool"), " we already have a very clearly step by step guild \uD83D\uDE0A", ' ', react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+          url: "https://jsonld.secomapp.com/docs/guide/Google-webmaster-tools.html#step-by-step-to-verify-your-website-to-google-webmaster-tool"
+        }, "in here"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), " And as a bonus - ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "it's 100% FREE!")))));
+      } else if (index == 5) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _this.checkBrokenLink()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["TextContainer"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          style: {
+            fontSize: "19px"
+          }
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "What is broken link? ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "A broken link or dead link is a link on a web page that no longer works because the website is encountering one or more of the reasons below.", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Reasons for broken links: ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "- An improper URL entered for the link by the website owner.", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "- The destination website removed the linked web page (causing what is known as a 404 error).", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "- The destination website permanently moved or no longer exists.", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "- The user has software or is behind a firewall that blocks access to the destination website.", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "- The website owner linked to a site that is behind a firewall that does not allow outside access (such as an Intranet site or a restricted access area on a website).", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Broken links can be problematic for website visitors, making them unable to access the desired resource or information. These users may decide to make use of another site to find the necessary information elsewhere. A site that hasn't been updated or checked for a long time may suffer from link rot, which is a term used to describe a site with dozens of broken links."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Google and some other search engine use this as a factor to rank in their search results ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "secomapp-via-text"
+        }, "(source: https://www.computerhope.com/jargon/b/broken_link.htm)")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          style: {
+            fontSize: "19px"
+          }
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "What is this app going to do? ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "We're going to check all broken link in your store"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Instead of you doing this manually (which can take hours)- we're going to do this for you automatically in a click \uD83D\uDE0A", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), " And as a bonus - ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "it's 100% FREE!")))));
+      }
+    });
+
+    _this.state = {
+      selected: 0,
+      isJson: true,
+      loading: false,
+      googleSiteVerification: '',
+      googleAnalytics: '',
+      open: '',
+      isTitle: true,
+      titleDes: '',
+      desDes: '',
+      isDes: true,
+      showToast: false,
+      message: '',
+      isSitemap: true,
+      isScan: true,
+      brokenLinks: 0,
+      isCrawled: true
+    };
+    return _this;
+  }
+
+  _createClass(Optimize, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      this.setHeaderAxio();
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(window.Laravel.baseUrl + '/api/get_optimize').then(function (response) {
+        _this2.setState({
+          isJson: response.data.isJson,
+          googleAnalytics: response.data.googleAnalytics,
+          googleSiteVerification: response.data.googleSiteVerification,
+          titleDes: response.data.titleDes,
+          isTitle: response.data.isTitle,
+          desDes: response.data.desDes,
+          isDes: response.data.isDes,
+          isSitemap: response.data.isSitemap,
+          isScan: response.data.isScan,
+          brokenLinks: response.data.brokenLinks,
+          isCrawled: response.data.isCrawled
+        });
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$state = this.state,
+          showToast = _this$state.showToast,
+          message = _this$state.message;
+      var toastMarkup = showToast ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Toast"], {
+        content: message,
+        onDismiss: this.toggleToast,
+        duration: 2500
+      }) : null;
+      var selected = this.state.selected;
+      var tabs = [{
+        id: 'json-ld',
+        content: 'Json LD',
+        accessibilityLabel: 'Json LD',
+        panelID: 'json-ld-content'
+      }, {
+        id: 'title',
+        content: 'Title',
+        panelID: 'title-content'
+      }, {
+        id: 'meta-tag',
+        content: 'Description tag',
+        panelID: 'meta-tag-content'
+      }, {
+        id: 'sitemap',
+        content: 'Sitemap',
+        panelID: 'sitemap-content'
+      }, {
+        id: 'google-analytics',
+        content: 'Google Analytics',
+        panelID: 'google-analytics-content'
+      }, {
+        id: 'broken-link',
+        content: 'Broken Link',
+        panelID: 'broken-link-content'
+      }];
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_App__WEBPACK_IMPORTED_MODULE_5__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Page"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        style: {
+          marginBottom: '3%',
+          marginTop: '3%'
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Banner"], {
+        status: "success"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        style: {
+          fontSize: '2.5rem',
+          fontWeight: '600'
+        }
+      }, "Let optimize your SEO and get more sale \uD83E\uDD11!"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "it is pretty easy, just a couple of clicks \uD83D\uDC47")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Card"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Tabs"], {
+        tabs: tabs,
+        selected: selected,
+        onSelect: this.handleTabChange,
+        fitted: true
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Card"].Section, null, this.tabMarkup(selected)))), toastMarkup));
+    }
+  }, {
+    key: "toggleToast",
+    get: function get() {
+      return this._toggleToast;
+    },
+    set: function set(value) {
+      this._toggleToast = value;
+    }
+  }]);
+
+  return Optimize;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (Optimize);
 
 /***/ }),
 
@@ -77818,10 +78697,275 @@ function (_Component) {
 /*!*****************************************!*\
   !*** ./resources/js/components/Test.js ***!
   \*****************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @shopify/polaris-icons */ "./node_modules/@shopify/polaris-icons/index.es.js");
+/* harmony import */ var _shopify_polaris__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @shopify/polaris */ "./node_modules/@shopify/polaris/index.es.js");
+/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./App */ "./resources/js/components/App.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
+
+
+
+
+
+
+
+var Test =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(Test, _Component);
+
+  function Test(props) {
+    var _this;
+
+    _classCallCheck(this, Test);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Test).call(this, props));
+
+    _defineProperty(_assertThisInitialized(_this), "state", {
+      loading: false,
+      message: '',
+      isScan: true,
+      open: '',
+      showToast: false,
+      storeLink: '',
+      blogLink: '',
+      articleLink: '',
+      collectionLink: '',
+      sortedRows: '',
+      countRows: 0,
+      name: window.Laravel.name
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "setHeaderAxio", function () {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.headers.common = {
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-CSRF-TOKEN': window.Laravel.csrfToken
+      };
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "rowArr", function () {
+      var temp = _this.state.sortedRows;
+      var arr = [];
+      temp.forEach(function (element) {
+        var elementTemp = [];
+        var id = element[0];
+        var title = element[1];
+        var image = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          alt: "product image",
+          src: element[2],
+          width: "50px",
+          height: "60px"
+        });
+        var test = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Button"], {
+          primary: true,
+          icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_3__["ViewMajorMonotone"],
+          onClick: function onClick() {
+            window.open('https://search.google.com/structured-data/testing-tool/u/0/#url=' + "https://" + _this.state.name + ".myshopify.com/products/" + element[3], '_blank');
+          }
+        }, "Test");
+        elementTemp.push(id);
+        elementTemp.push(title);
+        elementTemp.push(image);
+        elementTemp.push(test);
+        arr.push(elementTemp);
+      });
+      return arr;
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "_toggleToast", function () {
+      _this.setState(function (_ref) {
+        var showToast = _ref.showToast;
+        return {
+          showToast: !showToast
+        };
+      });
+    });
+
+    return _this;
+  }
+
+  _createClass(Test, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      this.setHeaderAxio();
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(window.Laravel.baseUrl + '/api/get_test').then(function (response) {
+        _this2.setState({
+          storeLink: response.data.storeLink,
+          blogLink: response.data.blogLink,
+          articleLink: response.data.articleLink,
+          collectionLink: response.data.collectionLink,
+          sortedRows: response.data.sortedRows,
+          countRows: response.data.countRows
+        });
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this3 = this;
+
+      var _this$state = this.state,
+          showToast = _this$state.showToast,
+          message = _this$state.message;
+      var toastMarkup = showToast ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Toast"], {
+        content: message,
+        onDismiss: this.toggleToast,
+        duration: 2500
+      }) : null;
+      var sortedRows = this.state.sortedRows;
+      var initiallySortedRows = [['', 'Cannot fetch your product data', '', '', '']]; // const rows = initiallySortedRows;
+
+      var rows = sortedRows ? this.rowArr() : initiallySortedRows;
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_App__WEBPACK_IMPORTED_MODULE_5__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Page"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        style: {
+          marginBottom: '3%',
+          marginTop: '3%'
+        }
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Layout"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Layout"].AnnotatedSection, {
+        title: "JSON-LD for store",
+        description: "Shopify and your customers will use this information to modify Theme."
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        style: {
+          marginTop: '3%'
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Card"], {
+        sectioned: true
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "secomapp-normal"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Test your overall shop for JSON-LD integrity", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Button"], {
+        primary: true,
+        id: "secomapp-btn-fix",
+        icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_3__["ViewMajorMonotone"],
+        onClick: function onClick() {
+          var popUp = window.open('https://search.google.com/structured-data/testing-tool/u/0/#url=' + "https://" + _this3.state.name + ".myshopify.com/", '_blank');
+
+          if (popUp == null || typeof popUp == 'undefined') {
+            alert('Please disable your pop-up blocker and try again.');
+          }
+        }
+      }, "Test"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Layout"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Layout"].AnnotatedSection, {
+        title: "JSON-LD for blog",
+        description: "Shopify and your customers will use this information to modify Theme."
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        style: {
+          marginTop: '3%'
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Card"], {
+        sectioned: true
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "secomapp-normal"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Test first blog and every blog in your store has JSON-LD", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Button"], {
+        primary: true,
+        id: "secomapp-btn-fix",
+        icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_3__["ViewMajorMonotone"],
+        onClick: function onClick() {
+          var popUp = window.open('https://search.google.com/structured-data/testing-tool/u/0/#url=' + "https://" + _this3.state.name + ".myshopify.com/blogs/" + _this3.state.blogLink, '_blank');
+
+          if (popUp == null || typeof popUp == 'undefined') {
+            alert('Please disable your pop-up blocker and try again.');
+          }
+        }
+      }, "Test"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Layout"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Layout"].AnnotatedSection, {
+        title: "JSON-LD for article",
+        description: "Shopify and your customers will use this information to modify Theme."
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        style: {
+          marginTop: '3%'
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Card"], {
+        sectioned: true
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "secomapp-normal"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Test first article in one blog and every article in your blog", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Button"], {
+        primary: true,
+        id: "secomapp-btn-fix",
+        icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_3__["ViewMajorMonotone"],
+        onClick: function onClick() {
+          var popUp = window.open('https://search.google.com/structured-data/testing-tool/u/0/#url=' + "https://" + _this3.state.name + ".myshopify.com/blogs/" + _this3.state.blogLink + "/" + _this3.state.articleLink, '_blank');
+
+          if (popUp == null || typeof popUp == 'undefined') {
+            alert('Please disable your pop-up blocker and try again.');
+          }
+        }
+      }, "Test"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Layout"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Layout"].AnnotatedSection, {
+        title: "JSON-LD for collection",
+        description: "Shopify and your customers will use this information to modify Theme."
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        style: {
+          marginTop: '3%'
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Card"], {
+        sectioned: true
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "secomapp-normal"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Test first collection and every collection in your store has JSON-LD", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Button"], {
+        primary: true,
+        id: "secomapp-btn-fix",
+        icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_3__["ViewMajorMonotone"],
+        onClick: function onClick() {
+          var popUp = window.open('https://search.google.com/structured-data/testing-tool/u/0/#url=' + "https://" + _this3.state.name + ".myshopify.com/collections/" + _this3.state.collectionLink, '_blank');
+
+          if (popUp == null || typeof popUp == 'undefined') {
+            alert('Please disable your pop-up blocker and try again.');
+          }
+        }
+      }, "Test"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Card"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["DataTable"], {
+        columnContentTypes: ['text', 'text', 'text', 'text'],
+        headings: ['Id', 'Product', 'Image', 'Test'],
+        rows: rows,
+        defaultSortDirection: "descending",
+        initialSortColumnIndex: 0,
+        footerContent: "Showing ".concat(rows.length, " results"),
+        verticalAlign: "middle"
+      })), toastMarkup));
+    }
+  }, {
+    key: "toggleToast",
+    get: function get() {
+      return this._toggleToast;
+    },
+    set: function set(value) {
+      this._toggleToast = value;
+    }
+  }]);
+
+  return Test;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (Test);
 
 /***/ }),
 
@@ -77843,8 +78987,8 @@ function (_Component) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\mawta\app_react\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\mawta\app_react\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\mawta\smart-seo\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\mawta\smart-seo\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

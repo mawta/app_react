@@ -39,6 +39,7 @@ render(
             <Route path='/faq' component={FAQ}/>
             <Route path='/optimize' component={Optimize}/>
             <Route path='/test' component={Test}/>
-            <Route path='/' component={Home}/>
+            <Route path='/home' component={Home}/>
+            <Route path='' component={Home}/>
         </Switch>
     </Router>, document.getElementById('app'))
