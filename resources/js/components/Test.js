@@ -2,9 +2,10 @@ import React, {Component, useState} from 'react'
 import axios from 'axios'
 import {Link} from 'react-router-dom'
 import {
-    ViewMajorMonotone, SettingsMajorMonotone
+    ViewMajorMonotone, SettingsMajorMonotone,ArrowRightMinor,ArrowLeftMinor
 } from '@shopify/polaris-icons'
 import {Redirect} from 'react-router-dom'
+import {Provider, ResourcePicker} from '@shopify/app-bridge-react';
 import {
     Strong,
     Icon,
@@ -16,9 +17,11 @@ import {
     TextContainer,
     Collapsible,
     Stack,
-    FooterHelp,
+    Pagination,
     Toast,
-    DataTable
+    DataTable,
+    AppProvider
+
 } from '@shopify/polaris';
 
 import App from './App'
@@ -42,6 +45,8 @@ class Test extends Component {
         sortedRows: '',
         countRows: 0,
         name: window.Laravel.name,
+        since_id: 0,
+        resourcePickerOpen: false,
     };
     setHeaderAxio = () => {
         axios.defaults.headers.common = {
@@ -60,7 +65,7 @@ class Test extends Component {
                     articleLink: response.data.articleLink,
                     collectionLink: response.data.collectionLink,
                     sortedRows: response.data.sortedRows,
-                    countRows: response.data.countRows,
+                    since_id: response.data.since_id,
                 })
             })
             .catch(function (error) {
@@ -243,9 +248,13 @@ class Test extends Component {
                             rows={rows}
                             defaultSortDirection="descending"
                             initialSortColumnIndex={0}
-                            footerContent={`Showing ${rows.length} results`}
                             verticalAlign="middle"
                         />
+                        <div>
+                            <div className="secomapp-pagination">
+                                &nbsp;&nbsp;&nbsp;&nbsp;<Button primary onClick={this.next} icon={ArrowRightMinor}/>
+                            </div>
+                        </div>
                     </Card>
 
                     {toastMarkup}
@@ -281,6 +290,37 @@ class Test extends Component {
             }
         );
         return arr
+    };
+
+    next = () =>{
+        this.setHeaderAxio();
+        axios.post(window.Laravel.baseUrl + '/api/next-product',{
+            since_id : this.state.since_id,
+        })
+            .then(response => {
+                this.setState({
+                    sortedRows: response.data.sortedRows,
+                    since_id: response.data.since_id,
+                })
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
+    };
+    pre = ()=>{
+        this.setHeaderAxio();
+        axios.post(window.Laravel.baseUrl + '/api/pre-product',{
+            since_id : this.state.since_id,
+        })
+            .then(response => {
+                this.setState({
+                    sortedRows: response.data.sortedRows,
+                    since_id: response.data.since_id,
+                })
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
     };
 
     _toggleToast = () => {

@@ -16,7 +16,7 @@ require('./components/Example');
 
 import App from './components/App'
 import Audit from './components/Audit'
-import FAQ from './components/FAQ'
+import Docs from './components/Docs'
 import Optimize from './components/Optimize'
 import Test from './components/Test'
 import Home from './components/Home'
@@ -36,7 +36,7 @@ render(
     <Router history={history}>
         <Switch>
             <Route path='/audit' component={Audit}/>
-            <Route path='/faq' component={FAQ}/>
+            <Route path='/docs' component={Docs}/>
             <Route path='/optimize' component={Optimize}/>
             <Route path='/test' component={Test}/>
             <Route path='/home' component={Home}/>

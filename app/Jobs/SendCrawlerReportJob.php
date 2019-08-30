@@ -46,7 +46,6 @@ class SendCrawlerReportJob implements ShouldQueue
     {
         try {
             info("{$this->url}:start job!!!");
-            shopSetting($this->shopId, ['crawl_status' => 'processing']);
             Crawler::create()
                 ->setCrawlObserver(new MyObserver($this->shopId))
                 ->setMaximumDepth(4)

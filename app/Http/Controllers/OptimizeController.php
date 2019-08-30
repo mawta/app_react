@@ -142,13 +142,9 @@ class OptimizeController extends Controller
     public function scanBrokenlink()
     {
         try{
+            shopSetting($this->shopId(), ['crawl_status' => 'processing']);
             $user = auth()->user();
             $url = $this->shopName() . '.myshopify.com';
-            $isCrawled = (shopSetting($this->shopId(), 'crawl_status', false) == 'done') ? true : false;
-            if ($isCrawled) {
-                return;
-            }
-            //crawl first time or no broken link in database.
             SendCrawlerReportJob::dispatch("https://" . $url, $this->shopId(), 'done', $user, $user->id)->onQueue('BrokenLinks');
         } catch (Exception $e) {
             logger("{$this->shopName()}: scan broken link fail at {$e->getMessage()}, {$e->getTraceAsString()}");
@@ -157,12 +153,9 @@ class OptimizeController extends Controller
     }
     public function reScanBrokenlink()
     {
+        shopSetting($this->shopId(), ['crawl_status' => 'processing']);
         $user = auth()->user();
         $url = $this->shopName() . '.myshopify.com';
-        $isCrawled = (shopSetting($this->shopId(), 'crawl_status', false) == 'done') ? true : false;
-        if (!$isCrawled) {
-            return;
-        }
         //crawl first time or no broken link in database.
         SendCrawlerReportJob::dispatch("https://" . $url, $this->shopId(), 'done', $user, $user->id)->onQueue('BrokenLinks');
     }

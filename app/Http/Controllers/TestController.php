@@ -20,7 +20,8 @@ class TestController extends Controller
         $shopName = $this->shopName();
         $accessToken =  $user->shop->access_token;
 
-        $sortedRows = $request->since_id ? $this->fetchProduct($request->since_id,$request->limit) :$this->fetchProduct(0,10);
+        $sortedRows = $this->fetchProduct(0,10);
+        $id =end($sortedRows)[0];
         $client = new \Secomapp\ClientApi($clientSecret, $shopName, $accessToken);
         $blogApi = new \Secomapp\Resources\Blog($client);
         $blog = $blogApi->all(['limit'=>1, 'since_id'=>0, 'fields'=>'handle,id']);
@@ -38,9 +39,24 @@ class TestController extends Controller
                 'articleLink' => $article,
                 'collectionLink' => $collection,
                 'sortedRows' => $sortedRows,
-                'countRows' => count($sortedRows),
+                'since_id' => $id,
             ]
         );
+    }
+
+    public function next(Request $request){
+        $since_id = $request->post('since_id');
+        $sortedRows = $since_id ? $this->fetchProduct($since_id,10) :$this->fetchProduct(0,10);
+        $id =end($sortedRows)[0];
+        return response()->json(
+            [
+                'sortedRows' => $sortedRows,
+                'since_id' => $id,
+            ]
+        );
+    }
+    public function pre(Request $request){
+
     }
     public function fetchProduct($since_id,$limit)
     {
@@ -48,7 +64,6 @@ class TestController extends Controller
         $clientSecret = env('SHOPIFY_SHARED_SECRET');
         $shopName = $this->shopName();
         $accessToken =  $user->shop->access_token;
-
         $client = new \Secomapp\ClientApi($clientSecret, $shopName, $accessToken);
         $productApi = new \Secomapp\Resources\Product($client);
         $products = $productApi->all(['limit'=>$limit, 'since_id'=>$since_id, 'fields'=>'title,handle,id,image']);

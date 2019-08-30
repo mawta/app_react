@@ -22,7 +22,6 @@ import {
     Heading,
     FooterHelp,
     Button
-
 } from '@shopify/polaris';
 import {
     ArrowLeftMinor,
@@ -69,13 +68,18 @@ export default class App extends React.Component {
             <Toast
                 onDismiss={this.toggleState('showToast')}
                 content="Thank you for contact with us 😘!
-                We always answer in few hours please wait "
+                We always answer in few hours, please wait "
             />
         ) : null;
 
         const userMenuActions = [
             {
-                items: [{content: 'Community forums'}],
+                items: [{
+                    // content: 'Upgrade Your Plan',
+                    // action: {
+                    //
+                    // }
+                }],
             },
         ];
 
@@ -104,7 +108,6 @@ export default class App extends React.Component {
             <TopBar
                 showNavigationToggle={true}
                 userMenu={userMenuMarkup}
-                onSearchResultsDismiss={this.handleSearchResultsDismiss}
                 onNavigationToggle={this.toggleState('showMobileNavigation')}
             />
         );
@@ -163,8 +166,8 @@ export default class App extends React.Component {
                         },
                         {
                             icon: QuestionMarkMajorMonotone,
-                            label: 'FAQ',
-                            url: '/faq'
+                            label: 'Docs',
+                            url: '/docs'
                         },
                     ]}
                     action={{
@@ -209,7 +212,7 @@ export default class App extends React.Component {
         const theme = {
             colors: {
                 topBar: {
-                    background: '#357997',
+                    background: '#5766C2',
                 },
             },
             logo: {
@@ -217,14 +220,14 @@ export default class App extends React.Component {
                 topBarSource: '/images/logo.png',
                 contextualSaveBarSource:
                     '/images/logo.png',
-                url: '',
+                url: '/',
                 accessibilityLabel: 'Secomapp',
             },
         };
 
         return (
             <div style={{height: '500px'}}>
-                <AppProvider theme={theme}>
+                <AppProvider theme={theme} >
                     <AppFrame
                         topBar={topBarMarkup}
                         navigation={navigationMarkup}
@@ -247,22 +250,74 @@ export default class App extends React.Component {
                             </Stack.Item>
                             <Stack.Item>
                                 <Button
-                                    url={"https://apps.shopify.com/json-ld-for-seo-1?#modal-show=ReviewListingModal"}>Leave
+                                    onClick={ () => {
+                                        let popUp =  window.open(
+                                            'https://apps.shopify.com/json-ld-for-seo-1?#modal-show=ReviewListingModal',
+                                            '_blank'
+                                        );
+                                        if (popUp == null || typeof(popUp)=='undefined') {
+                                            alert('Please disable your pop-up blocker and try again.');
+                                        }
+
+                                    }
+                                    }
+                                >Leave
                                     a review</Button>
                             </Stack.Item>
                         </Stack>
                         <Layout.Section>
                             <FooterHelp>
-                                Explore more apps from {" "}
-                                <Link url="https://apps.shopify.com/partners/secomapp" external>
-                                    Secomapp
-                                </Link>
+                                Explore more apps from <Button
+                                onClick={ () => {
+                                    let popUp =  window.open(
+                                        'https://apps.shopify.com/partners/secomapp',
+                                        '_blank'
+                                    );
+                                    if (popUp == null || typeof(popUp)=='undefined') {
+                                        alert('Please disable your pop-up blocker and try again.');
+                                    }
+
+                                }
+                                }
+                                plain>Secomapp</Button>
                                 .
                             </FooterHelp>
                         </Layout.Section>
                         {toastMarkup}
                         {modalMarkup}
+                        <nav className="nav">
+                                <div id="form-main">
+                                    <div id="form-div">
+                                        <form className="form" id="form1">
 
+                                            <p className="name">
+                                                <input name="name" type="text"
+                                                       className="validate[required,custom[onlyLetter],length[0,100]] feedback-input"
+                                                       placeholder="Name" id="name"/>
+                                            </p>
+
+                                            <p className="email">
+                                                <input name="email" type="text"
+                                                       className="validate[required,custom[email]] feedback-input"
+                                                       id="email" placeholder="Email"/>
+                                            </p>
+
+                                            <p className="text">
+                                                <textarea name="text"
+                                                          className="validate[required,length[6,300]] feedback-input"
+                                                          id="comment" placeholder="Message"></textarea>
+                                            </p>
+
+
+                                            <div className="submit">
+                                                <input type="submit" value="SEND" id="button-blue"/>
+                                                <div className="ease"></div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                        </nav>
+                        <div href="#" className="toggle-nav">Secomapp help</div>
                     </AppFrame>
                 </AppProvider>
             </div>

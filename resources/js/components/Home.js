@@ -47,6 +47,7 @@ class Home extends Component {
             'X-CSRF-TOKEN': window.Laravel.csrfToken
         };
     };
+
     componentDidMount() {
         this.setHeaderAxio();
         axios.get(window.Laravel.baseUrl + '/api/get_home')
@@ -121,11 +122,11 @@ class Home extends Component {
     checkProblem = () => {
         return <div>
             {this.isProblem() ? (
-                <p> Seem like you have some problem?  <Button primary id="secomapp-button-right" url="/optimize">Fix
-                it</Button> </p>
+                <p> Seem like you have some problem? <Button primary id="secomapp-button-right" url="/optimize">Fix
+                    it</Button></p>
             ) : (
-               <p> Great! your SEO is almost perfect <Button primary id="secomapp-button-right-large" url="/optimize">Do
-                   the rest</Button></p>
+                <p> Great! your SEO is almost perfect <Button primary id="secomapp-button-right-large" url="/optimize">Do
+                    the rest</Button></p>
             )}
         </div>;
     };
@@ -142,6 +143,7 @@ class Home extends Component {
                             status='success'
                             action={{
                                 content: '⚡ Read ours docs',
+                                url: 'http://localhost:8000/'
                             }}
                         >
                             <p style={{fontSize: '2.5rem', fontWeight: '600',}}>Start optimizing your SEO with our help
@@ -178,38 +180,69 @@ class Home extends Component {
                         >
                             <Card sectioned>
                                 <div className="accordion">
+
+                                    <div className="item">
+                                        <input id="accordionc2" hidden="hidden" type="checkbox" name="accordionc"/>
+                                        <label className="menulabel" htmlFor="accordionc2">What is this app going to
+                                            do</label>
+                                        <div className="acoordion-content">
+                                            &nbsp;&nbsp;&nbsp;Ours app will show your SEO problem and help you fix it
+                                            very easy , just a couple of clicks
+                                            <br/>
+                                            &nbsp;&nbsp;&nbsp;<b>We don't collect your data for any reason</b>
+                                        </div>
+                                    </div>
+
                                     <div className="item">
                                         <input id="accordionc1" type="checkbox" name="accordionc"
                                                hidden="hidden"/>
-                                        <label className="menulabel" htmlFor="accordionc1">Q: What are Alt tags and how
-                                            can they help my store?</label>
-                                        <div className="acoordion-content">Lorem ipsum dolor sit amet, consectetur
-                                            adipisicing elit. Suscipit nulla non laboriosam accusamus ex neque sit.
-                                            Corporis in expedita optio ducimus, id illo, iure hic officia quam qui
-                                            sapiente veniam!
-                                        </div>
-                                    </div>
-                                    <div className="item">
-                                        <input id="accordionc2" hidden="hidden" type="checkbox" name="accordionc"/>
-                                        <label className="menulabel" htmlFor="accordionc2">Accordion2</label>
-                                        <div className="acoordion-content">Lorem ipsum dolor sit amet, consectetur
-                                            adipisicing elit. Suscipit nulla non laboriosam accusamus ex neque sit.
-                                            Corporis in expedita optio ducimus, id illo, iure hic officia quam qui
-                                            sapiente veniam!
+                                        <label className="menulabel" htmlFor="accordionc1">What is JSON-LD?</label>
+                                        <div className="acoordion-content">
+                                            &nbsp;&nbsp;&nbsp;JSON-LD is a lightweight 'Linked Data' format. It is a way
+                                            to encode your website data to be easier to understand for other machines on
+                                            the Internet - including search engines like Google!
+                                            <br/>
+                                            &nbsp;&nbsp;&nbsp;Google looks for JSON-LD, and rewards websites and
+                                            webshops that serve JSON-LD data. Many of Google’s search results page
+                                            features (including rich snippets and Knowledge Graph cards) are enabled by
+                                            JSON-LD markup. Their 'Shopping' search results tab is also powered by
+                                            JSON-LD. Making sure that your site serves this type of data can be very
+                                            helpful in your search engine ranking!
                                         </div>
                                     </div>
                                     <div className="item">
                                         <input id="accordionc3" hidden="hidden" type="checkbox" name="accordionc"/>
-                                        <label className="menulabel" htmlFor="accordionc3">Accordion3</label>
-                                        <div className="acoordion-content">Lorem ipsum dolor sit amet, consectetur
-                                            adipisicing elit. Suscipit nulla non laboriosam accusamus ex neque sit.
-                                            Corporis in expedita optio ducimus, id illo, iure hic officia quam qui
-                                            sapiente veniam!
+                                        <label className="menulabel" htmlFor="accordionc3">What is Google Analytics and
+                                            Google Webmaster</label>
+                                        <div className="acoordion-content">
+                                            &nbsp;&nbsp;&nbsp;Google Search Console (previously Webmaster tool) allows
+                                            to know if your
+                                            site is infected with malware. It also allows you to communicate with google
+                                            and adjust aspects of how Google see your websites, such as Internal &
+                                            External links, by typing which keyword user land on your site, adjust
+                                            crawling and indexing of your website, click rate of keywords and many more.
+                                            <br/>
+                                            &nbsp;&nbsp;&nbsp;Google analytics is used to track the website activity of
+                                            the users such as session duration, pages per session, bounce rate etc.
+                                            along with the information on the source of the traffic. It can be
+                                            integrated with Google Ads, with which users can review online campaigns by
+                                            tracking landing page quality and conversions (goals). Goals might include
+                                            sales, lead generation, viewing a specific page, or downloading a particular
+                                            file. Google Analytics' approach is to show high-level, dashboard-type data
+                                            for the casual user, and more in-depth data further into the report set.
+                                            Google Analytics analysis can identify poorly performing pages with
+                                            techniques such as funnel visualization, where visitors came from
+                                            (referrers), how long they stayed on the website and their geographical
+                                            position. It also provides more advanced features, including custom visitor
+                                            segmentation. Google Analytics e-commerce reporting can track sales activity
+                                            and performance. The e-commerce reports shows a site's transactions,
+                                            revenue, and many other commerce-related metrics
                                         </div>
                                     </div>
+
                                 </div>
                                 <br/>
-                                <a href='/faq'><p>Read more</p></a>
+                                <a href='http://localhost:8000/'><p>Read more</p></a>
                             </Card>
                         </Layout.AnnotatedSection>
                     </Layout>
