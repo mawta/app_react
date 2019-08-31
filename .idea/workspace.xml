@@ -1,24 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="42d377fc-165f-4f39-9a87-bd27a8bf9820" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/public/images/facebook@2x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/illo_welcome_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/instagram@2x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/pinterest@2x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/twitter@2x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/mail/thanks-mail.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Mail/Support.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Mail/Support.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/src/components/layout.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/src/components/layout.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/src/pages/template.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/src/pages/template.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Optimize.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Optimize.js" afterDir="false" />
-    </list>
+    <list default="true" id="42d377fc-165f-4f39-9a87-bd27a8bf9820" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -581,12 +564,12 @@
       <workItem from="1567044438340" duration="18287000" />
       <workItem from="1567070766283" duration="3281000" />
       <workItem from="1567132705209" duration="20202000" />
-      <workItem from="1567217689659" duration="6551000" />
+      <workItem from="1567217689659" duration="6866000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="210504000" />
+    <option name="totallyTimeSpent" value="210819000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
