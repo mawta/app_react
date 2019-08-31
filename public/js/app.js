@@ -71929,7 +71929,7 @@ if (false) {} else {
 /*!***************************************************************!*\
   !*** ./node_modules/react-router-dom/esm/react-router-dom.js ***!
   \***************************************************************/
-/*! exports provided: BrowserRouter, HashRouter, Link, NavLink, MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext */
+/*! exports provided: MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext, BrowserRouter, HashRouter, Link, NavLink */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -78284,16 +78284,54 @@ function (_React$Component) {
       };
     });
 
-    _defineProperty(_assertThisInitialized(_this), "sendMail", function () {
+    _defineProperty(_assertThisInitialized(_this), "sendFormMail", function () {
+      var element = document.getElementsByClassName('nav-active')[0];
+      element.classList.remove("nav-active");
+      var subject = document.getElementById('name').value;
+      var email = document.getElementById('email').value;
+      var message = document.getElementById('comment').value;
+      document.getElementById('name').value = '';
+      document.getElementById('email').value = '';
+      document.getElementById('comment').value = '';
+
+      if (!subject || !email || !message) {
+        return;
+      }
+
       _this.setHeaderAxio();
 
       axios__WEBPACK_IMPORTED_MODULE_4___default.a.post(window.Laravel.baseUrl + '/api/send-mail', {
-        subject: _this.state.supportSubject,
-        message1: _this.state.supportMessage
+        subject: subject,
+        message1: message,
+        email: email
       }).then(function (response) {
         _this.setState(function (_ref) {
           var modalActive = _ref.modalActive,
               showToast = _ref.showToast;
+          return {
+            showToast: !showToast
+          };
+        });
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "sendMail", function () {
+      if (!_this.state.supportSubject || !_this.state.supportMessage) {
+        return;
+      }
+
+      _this.setHeaderAxio();
+
+      axios__WEBPACK_IMPORTED_MODULE_4___default.a.post(window.Laravel.baseUrl + '/api/send-mail', {
+        subject: _this.state.supportSubject,
+        message1: _this.state.supportMessage,
+        email: window.Laravel.email
+      }).then(function (response) {
+        _this.setState(function (_ref2) {
+          var modalActive = _ref2.modalActive,
+              showToast = _ref2.showToast;
           return {
             modalActive: !modalActive,
             showToast: !showToast
@@ -78387,9 +78425,9 @@ function (_React$Component) {
           url: '/home',
           onClick: this.toggleState('isLoading')
         }, {
-          label: 'Audit your store',
-          icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_2__["ResourcesMajorMonotone"],
-          url: '/audit',
+          label: 'Test',
+          icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_2__["TroubleshootMajorMonotone"],
+          url: '/test',
           onClick: this.toggleState('isLoading')
         }, {
           label: 'Optimize',
@@ -78397,9 +78435,9 @@ function (_React$Component) {
           url: '/optimize',
           onClick: this.toggleState('isLoading')
         }, {
-          label: 'Test',
-          icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_2__["TroubleshootMajorMonotone"],
-          url: '/test',
+          label: 'Audit your store',
+          icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_2__["ResourcesMajorMonotone"],
+          url: '/audit',
           onClick: this.toggleState('isLoading')
         }]
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["Navigation"].Section, {
@@ -78502,14 +78540,6 @@ function (_React$Component) {
         className: "form",
         id: "form1"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-        className: "name"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        name: "name",
-        type: "text",
-        className: "validate[required,custom[onlyLetter],length[0,100]] feedback-input",
-        placeholder: "Name",
-        id: "name"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "email"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         name: "email",
@@ -78517,6 +78547,15 @@ function (_React$Component) {
         className: "validate[required,custom[email]] feedback-input",
         id: "email",
         placeholder: "Email"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "name"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        name: "subject",
+        type: "text",
+        className: "validate[required,custom[onlyLetter],length[0,300]] feedback-input",
+        placeholder: "Subject",
+        id: "name",
+        max: "300"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "text"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
@@ -78526,11 +78565,10 @@ function (_React$Component) {
         placeholder: "Message"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "submit"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "submit",
-        value: "SEND",
-        id: "button-blue"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["Button"], {
+        id: "button-blue",
+        onClick: this.sendFormMail
+      }, "SEND"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "ease"
       })))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         href: "#",
@@ -79164,9 +79202,33 @@ function (_Component) {
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         className: "menulabel",
         htmlFor: "accordionc2"
-      }, "What is this app going to do"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "What is this app going to do?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "acoordion-content"
       }, "\xA0\xA0\xA0Ours app will show your SEO problem and help you fix it very easy , just a couple of clicks", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "\xA0\xA0\xA0", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "We don't collect your data for any reason"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "item"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        id: "accordionc4",
+        hidden: "hidden",
+        type: "checkbox",
+        name: "accordionc"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        className: "menulabel",
+        htmlFor: "accordionc4"
+      }, "How do I audit my shop?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "acoordion-content"
+      }, "\xA0\xA0\xA0Click the button \u201CAudit your store\u201D button on the home page. Your will be redirect to a very simple to use page.")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "item"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        id: "accordionc5",
+        hidden: "hidden",
+        type: "checkbox",
+        name: "accordionc"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        className: "menulabel",
+        htmlFor: "accordionc5"
+      }, "How long will it take to analyse my shop?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "acoordion-content"
+      }, "\xA0\xA0\xA0It usually takes us under 3 minutes to finish crawling your store and for us to generate your report.", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "\xA0\xA0\xA0If you have a large store with lots of pages it will take a little longer.", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "\xA0\xA0\xA0We display our progress wheel soo you\u2019ll always know exactly how far through we are.")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "item"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         id: "accordionc1",
@@ -79188,7 +79250,7 @@ function (_Component) {
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         className: "menulabel",
         htmlFor: "accordionc3"
-      }, "What is Google Analytics and Google Webmaster"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "What is Google Analytics and Google Webmaster?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "acoordion-content"
       }, "\xA0\xA0\xA0Google Search Console (previously Webmaster tool) allows to know if your site is infected with malware. It also allows you to communicate with google and adjust aspects of how Google see your websites, such as Internal & External links, by typing which keyword user land on your site, adjust crawling and indexing of your website, click rate of keywords and many more.", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "\xA0\xA0\xA0Google analytics is used to track the website activity of the users such as session duration, pages per session, bounce rate etc. along with the information on the source of the traffic. It can be integrated with Google Ads, with which users can review online campaigns by tracking landing page quality and conversions (goals). Goals might include sales, lead generation, viewing a specific page, or downloading a particular file. Google Analytics' approach is to show high-level, dashboard-type data for the casual user, and more in-depth data further into the report set. Google Analytics analysis can identify poorly performing pages with techniques such as funnel visualization, where visitors came from (referrers), how long they stayed on the website and their geographical position. It also provides more advanced features, including custom visitor segmentation. Google Analytics e-commerce reporting can track sales activity and performance. The e-commerce reports shows a site's transactions, revenue, and many other commerce-related metrics"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         href: "http://localhost:8000/"
@@ -79583,7 +79645,7 @@ function (_Component) {
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "How to Set up Google Analytics and Google webmaster tool? ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Set up Google Analytics "), "is very simple and you an do it by follow some step ", ' ', react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
           url: "https://help.shopify.com/en/manual/reports-and-analytics/google-analytics/google-analytics-setup"
         }, "in here"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "With Google webmaster tool"), " we already have a very clearly step by step guild \uD83D\uDE0A", ' ', react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
-          url: "https://jsonld.secomapp.com/docs/guide/Google-webmaster-tools.html#step-by-step-to-verify-your-website-to-google-webmaster-tool"
+          url: "http://localhost:8000/webmaster"
         }, "in here"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), " And as a bonus - ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "it's 100% FREE!")))));
       } else if (index == 5) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _this.checkBrokenLink()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["TextContainer"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {

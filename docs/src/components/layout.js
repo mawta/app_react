@@ -34,13 +34,16 @@ const Layout = ({ children }) => {
                             <a href='/'>Home</a>
                         </Nav>
                         <Nav>
+                            <a href='/seos'>SEO</a>
+                        </Nav>
+                        <Nav>
+                            <a href='/sitemap'>Sitemap</a>
+                        </Nav>
+                        <Nav>
                             <a href='/google/'>Google Search Console</a>
                         </Nav>
                         <Nav>
                             <a href='/webmaster'>Google Webmaster Tool</a>
-                        </Nav>
-                        <Nav>
-                            <a href='/seos'>SEO</a>
                         </Nav>
                     </Navbar>
                 </Col>

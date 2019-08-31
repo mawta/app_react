@@ -12,7 +12,7 @@ export default function Page({data}) {
     // const post = data.markdownRemark;
     return (
         <Layout>
-            <SEO title="Home" />
+            <SEO title={page.frontmatter.title} />
             <div>
                 <h1>{page.frontmatter.title}</h1>
                 <div dangerouslySetInnerHTML={{__html: page.html}} />

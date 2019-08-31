@@ -133,11 +133,10 @@ export default class App extends React.Component {
 
                         },
                         {
-                            label: 'Audit your store',
-                            icon: ResourcesMajorMonotone,
-                            url: '/audit',
+                            label: 'Test',
+                            icon: TroubleshootMajorMonotone,
+                            url: '/test',
                             onClick: this.toggleState('isLoading'),
-
                         },
                         {
                             label: 'Optimize',
@@ -147,11 +146,14 @@ export default class App extends React.Component {
 
                         },
                         {
-                            label: 'Test',
-                            icon: TroubleshootMajorMonotone,
-                            url: '/test',
+                            label: 'Audit your store',
+                            icon: ResourcesMajorMonotone,
+                            url: '/audit',
                             onClick: this.toggleState('isLoading'),
+
                         },
+
+
                     ]}
 
                 />
@@ -289,17 +291,16 @@ export default class App extends React.Component {
                                 <div id="form-main">
                                     <div id="form-div">
                                         <form className="form" id="form1">
-
-                                            <p className="name">
-                                                <input name="name" type="text"
-                                                       className="validate[required,custom[onlyLetter],length[0,100]] feedback-input"
-                                                       placeholder="Name" id="name"/>
-                                            </p>
-
                                             <p className="email">
                                                 <input name="email" type="text"
                                                        className="validate[required,custom[email]] feedback-input"
                                                        id="email" placeholder="Email"/>
+                                            </p>
+
+                                            <p className="name">
+                                                <input name="subject" type="text"
+                                                       className="validate[required,custom[onlyLetter],length[0,300]] feedback-input"
+                                                       placeholder="Subject" id="name" max="300"/>
                                             </p>
 
                                             <p className="text">
@@ -310,7 +311,9 @@ export default class App extends React.Component {
 
 
                                             <div className="submit">
-                                                <input type="submit" value="SEND" id="button-blue"/>
+                                                <Button id="button-blue" onClick={this.sendFormMail}>
+                                                    SEND
+                                                </Button>
                                                 <div className="ease"></div>
                                             </div>
                                         </form>
@@ -331,12 +334,43 @@ export default class App extends React.Component {
         };
     };
 
-    sendMail = () => {
 
+    sendFormMail = () => {
+        const element = document.getElementsByClassName('nav-active')[0];
+        element.classList.remove("nav-active");
+        let subject = document.getElementById('name').value;
+        let email = document.getElementById('email').value;
+        let message = document.getElementById('comment').value;
+        document.getElementById('name').value = '';
+        document.getElementById('email').value= '';
+        document.getElementById('comment').value= '';
+        if (!subject||!email||!message){
+            return;
+        }
+        this.setHeaderAxio();
+        axios.post(window.Laravel.baseUrl + '/api/send-mail',{
+            subject: subject,
+            message1: message,
+            email: email
+        })
+            .then(response => {
+
+                this.setState(({modalActive,showToast}) => ({showToast: !showToast}));
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
+    };
+
+    sendMail = () => {
+        if (!this.state.supportSubject||!this.state.supportMessage) {
+            return;
+        }
         this.setHeaderAxio();
         axios.post(window.Laravel.baseUrl + '/api/send-mail',{
             subject: this.state.supportSubject,
             message1: this.state.supportMessage,
+            email: window.Laravel.email
         })
             .then(response => {
                 this.setState(({modalActive,showToast}) => ({modalActive: !modalActive, showToast: !showToast}));

@@ -609,7 +609,7 @@ class Optimize extends Component {
                             <b>With Google webmaster tool</b> we already have a very clearly step by step guild 😊
                             {' '}
                             <Link
-                                url="https://jsonld.secomapp.com/docs/guide/Google-webmaster-tools.html#step-by-step-to-verify-your-website-to-google-webmaster-tool">
+                                url="http://localhost:8000/webmaster">
                                 in here
                             </Link>
                             <br/> And as a bonus - <b>it's 100% FREE!</b>

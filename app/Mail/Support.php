@@ -13,6 +13,8 @@ class Support extends Mailable
     public $user;
     public $subject;
     public $message;
+    public $email;
+
     /**
      * Create a new message instance.
      *
@@ -32,6 +34,6 @@ class Support extends Mailable
      */
     public function build()
     {
-        return $this->from('huysakia@gmail.com')->subject($this->subject)->view('mail.support')->with('msg',$this->message);
+        return $this->from('huysakia@gmail.com')->subject($this->subject)->view('mail.thanks-mail')->with('url',env('URL'));
     }
 }

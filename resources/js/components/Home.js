@@ -184,12 +184,38 @@ class Home extends Component {
                                     <div className="item">
                                         <input id="accordionc2" hidden="hidden" type="checkbox" name="accordionc"/>
                                         <label className="menulabel" htmlFor="accordionc2">What is this app going to
-                                            do</label>
+                                            do?</label>
                                         <div className="acoordion-content">
                                             &nbsp;&nbsp;&nbsp;Ours app will show your SEO problem and help you fix it
                                             very easy , just a couple of clicks
                                             <br/>
                                             &nbsp;&nbsp;&nbsp;<b>We don't collect your data for any reason</b>
+                                        </div>
+                                    </div>
+
+
+                                    <div className="item">
+                                        <input id="accordionc4" hidden="hidden" type="checkbox" name="accordionc"/>
+                                        <label className="menulabel" htmlFor="accordionc4">How do I audit my
+                                            shop?</label>
+                                        <div className="acoordion-content">
+                                            &nbsp;&nbsp;&nbsp;Click the button “Audit your store” button on the home
+                                            page. Your will be redirect to a very simple to use page.
+                                        </div>
+                                    </div>
+
+
+                                    <div className="item">
+                                        <input id="accordionc5" hidden="hidden" type="checkbox" name="accordionc"/>
+                                        <label className="menulabel" htmlFor="accordionc5">How long will it take to analyse my shop?</label>
+                                        <div className="acoordion-content">
+                                            &nbsp;&nbsp;&nbsp;It usually takes us under 3 minutes to finish crawling your store and for us to generate your report.
+                                            <br/>
+
+                                            &nbsp;&nbsp;&nbsp;If you have a large store with lots of pages it will take a little longer.
+                                            <br/>
+
+                                            &nbsp;&nbsp;&nbsp;We display our progress wheel soo you’ll always know exactly how far through we are.
                                         </div>
                                     </div>
 
@@ -213,7 +239,7 @@ class Home extends Component {
                                     <div className="item">
                                         <input id="accordionc3" hidden="hidden" type="checkbox" name="accordionc"/>
                                         <label className="menulabel" htmlFor="accordionc3">What is Google Analytics and
-                                            Google Webmaster</label>
+                                            Google Webmaster?</label>
                                         <div className="acoordion-content">
                                             &nbsp;&nbsp;&nbsp;Google Search Console (previously Webmaster tool) allows
                                             to know if your

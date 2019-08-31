@@ -10,9 +10,14 @@ import SEO from "../components/seo"
 const IndexPage = () => (
     <Layout>
         <SEO title="Home" />
+        <div>
+            <h2>Welcome to Secomapp docs</h2>
+        </div>
         <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
+
             <Image />
         </div>
+
     </Layout>
 )
 

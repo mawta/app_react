@@ -26,10 +26,12 @@ class HomeController extends Controller
     {
         try{
             $subject = (string)$request->post('subject');
+            $email = (string)$request->post('email') ?(string)$request->post('email'):auth()->user()->email;
             $message = (string)$request->post('message1');
             $user = auth()->user();
-            Mail::to($user)->send(new Support($user,$message,$subject));
+            Mail::to($email)->send(new Support($user,$message,$subject));
         }catch (\Exception $e){
+            logger("{$this->shopName()}: send mail fail {$e->getMessage()}, {$e->getTraceAsString()}");
 
         }
     }

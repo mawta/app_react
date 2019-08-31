@@ -220,13 +220,13 @@ form p {
     border-radius: 7px;
 }
 
-#button-blue{
+#button-blue.Polaris-Button {
     font-family: 'Montserrat', Arial, Helvetica, sans-serif;
     float:left;
     width: 90%;
     border: #fbfbfb solid 4px;
     cursor:pointer;
-    background-color: #5766C2;
+    background: #5766C2;
     color:white;
     font-size:24px;
     padding-top:22px;
