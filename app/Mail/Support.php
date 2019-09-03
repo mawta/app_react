@@ -34,6 +34,6 @@ class Support extends Mailable
      */
     public function build()
     {
-        return $this->from('huysakia@gmail.com')->subject($this->subject)->view('mail.thanks-mail')->with('url',env('URL'));
+        return $this->from(env('SUPPORT_MAIL'))->subject($this->subject)->view('mail.thanks-mail')->with('url',env('URL'));
     }
 }

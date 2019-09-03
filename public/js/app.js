@@ -71929,7 +71929,7 @@ if (false) {} else {
 /*!***************************************************************!*\
   !*** ./node_modules/react-router-dom/esm/react-router-dom.js ***!
   \***************************************************************/
-/*! exports provided: MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext, BrowserRouter, HashRouter, Link, NavLink */
+/*! exports provided: BrowserRouter, HashRouter, Link, NavLink, MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -78450,7 +78450,7 @@ function (_React$Component) {
         }, {
           icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_2__["QuestionMarkMajorMonotone"],
           label: 'Docs',
-          url: '/docs'
+          url: 'http://localhost:8000'
         }],
         action: {
           icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_2__["ConversationMinor"],
@@ -79642,10 +79642,10 @@ function (_Component) {
           style: {
             fontSize: "19px"
           }
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "How to Set up Google Analytics and Google webmaster tool? ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Set up Google Analytics "), "is very simple and you an do it by follow some step ", ' ', react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
-          url: "https://help.shopify.com/en/manual/reports-and-analytics/google-analytics/google-analytics-setup"
-        }, "in here"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "With Google webmaster tool"), " we already have a very clearly step by step guild \uD83D\uDE0A", ' ', react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
-          url: "http://localhost:8000/webmaster"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "How to Set up Google Analytics and Google webmaster tool? ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Set up Google Analytics "), "is very simple and you an do it by follow some step ", ' ', react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+          href: "https://help.shopify.com/en/manual/reports-and-analytics/google-analytics/google-analytics-setup"
+        }, "in here"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "With Google webmaster tool"), " we already have a very clearly step by step guild \uD83D\uDE0A", ' ', react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+          href: "http://localhost:8000/webmaster"
         }, "in here"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), " And as a bonus - ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "it's 100% FREE!")))));
       } else if (index == 5) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _this.checkBrokenLink()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["TextContainer"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {

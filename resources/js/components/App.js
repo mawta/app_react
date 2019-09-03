@@ -169,7 +169,7 @@ export default class App extends React.Component {
                         {
                             icon: QuestionMarkMajorMonotone,
                             label: 'Docs',
-                            url: '/docs'
+                            url: 'http://localhost:8000'
                         },
                     ]}
                     action={{

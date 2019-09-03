@@ -599,19 +599,19 @@ class Optimize extends Component {
                         <br/>
                         <p>
                             <b>Set up Google Analytics </b>is very simple and you an do it by follow some step {' '}
-                            <Link
-                                url="https://help.shopify.com/en/manual/reports-and-analytics/google-analytics/google-analytics-setup">
+                            <a
+                                href="https://help.shopify.com/en/manual/reports-and-analytics/google-analytics/google-analytics-setup">
                                 in here
-                            </Link>
+                            </a>
                             <br/>
                         </p>
                         <p>
                             <b>With Google webmaster tool</b> we already have a very clearly step by step guild 😊
                             {' '}
-                            <Link
-                                url="http://localhost:8000/webmaster">
+                            <a
+                                href="http://localhost:8000/webmaster">
                                 in here
-                            </Link>
+                            </a>
                             <br/> And as a bonus - <b>it's 100% FREE!</b>
                         </p>
 
