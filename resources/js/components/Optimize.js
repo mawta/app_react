@@ -31,7 +31,8 @@ import {
     TextField,
     Toast,
     TopBar,
-    Tabs, FooterHelp
+    Tabs,
+    Heading
 } from '@shopify/polaris';
 
 import App from './App'
@@ -144,11 +145,11 @@ class Optimize extends Component {
                             status='success'
                         >
                             <p style={{fontSize: '2.5rem', fontWeight: '600',}}>
-                                Let optimize your SEO and get more sale 🤑!
+                                Let optimize your SEO and get more sales 🤑!
                             </p>
                             <br/>
                             <p>
-                                <b>it is pretty easy, just a couple of clicks 👇</b>
+                                <p>it is pretty easy, just a couple of clicks 👇</p>
                             </p>
                         </Banner>
                     </div>
@@ -407,7 +408,7 @@ class Optimize extends Component {
                 <TextContainer>
                     <div>
                         <br/><br/>
-                        <p style={{fontSize: "19px"}}><b>What is Json LD? </b></p>
+                        <Heading>What is Json LD?</Heading>
                         <br/>
                         <p>
                             JSON-LD is a lightweight Linked Data format. It is easy for humans to read and write.
@@ -424,7 +425,7 @@ class Optimize extends Component {
                     </div>
 
                     <div>
-                        <p style={{fontSize: "19px"}}><b>What is this app going to do? </b></p>
+                        <Heading>What is this app going to do?</Heading>
                         <br/>
                         <p>
                             We're going to add Json LD to all your store front and products page
@@ -445,7 +446,7 @@ class Optimize extends Component {
                 <TextContainer>
                     <div>
                         <br/><br/>
-                        <p style={{fontSize: "19px"}}><b>Why title is so important? </b></p>
+                        <Heading>Why title is so important?</Heading>
                         <br/>
                         <p>
                             A title tag is an HTML element that specifies the title of a web page.
@@ -460,7 +461,7 @@ class Optimize extends Component {
                     </div>
 
                     <div>
-                        <p style={{fontSize: "19px"}}><b>What is this app going to do? </b></p>
+                        <Heading>What is this app going to do?</Heading>
                         <br/>
                         <p>
                             We're going to fix your title in every single page of your store
@@ -482,7 +483,7 @@ class Optimize extends Component {
                 <TextContainer>
                     <div>
                         <br/><br/>
-                        <p style={{fontSize: "19px"}}><b>What is a meta description tag? </b></p>
+                        <Heading>What is a meta description tag?</Heading>
                         <br/>
                         <p>
                             The meta description is an HTML attribute that provides a brief summary of a web page. <br/>
@@ -497,7 +498,7 @@ class Optimize extends Component {
                     </div>
 
                     <div>
-                        <p style={{fontSize: "19px"}}><b>What is this app going to do? </b></p>
+                        <Heading>What is this app going to do?</Heading>
                         <br/>
                         <p>
                             We're going to fix your description tag in every single page of your store
@@ -519,8 +520,8 @@ class Optimize extends Component {
                 <TextContainer>
                     <div>
                         <br/><br/>
-                        <p style={{fontSize: "19px"}}><b>What is a sitemap? </b></p>
-                        <br/>
+                        <Heading>What is a sitemap?</Heading>
+                            <br/>
                         <p>
                             A sitemap is a file where you provide information about the pages, videos, and other files
                             on your site, and the relationships between them. Search engines like Google read this file
@@ -537,7 +538,7 @@ class Optimize extends Component {
                     </div>
 
                     <div>
-                        <p style={{fontSize: "19px"}}><b>What is this app going to do? </b></p>
+                        <Heading>What is this app going to do?</Heading>
                         <br/>
                         <p>
                             We're going to submit your sitemap to google.
@@ -561,7 +562,8 @@ class Optimize extends Component {
                 <TextContainer>
                     <div>
                         <br/><br/>
-                        <p style={{fontSize: "19px"}}><b>What is Google webmaster tool? </b></p>
+                        <Heading>What is Google webmaster tool?</Heading>
+
                         <br/>
                         <p>
                             Google Search Console (previously Webmaster tool) allows to know if your site is infected
@@ -571,7 +573,7 @@ class Optimize extends Component {
                             more.
                         </p>
                         <br/>
-                        <p style={{fontSize: "19px"}}><b>What is Google Analytics? </b></p>
+                        <Heading>What is Google Analytics?</Heading>
                         <br/>
                         <p>
                             Google analytics is used to track the website activity of the users such as session
@@ -594,8 +596,7 @@ class Optimize extends Component {
                     </div>
 
                     <div>
-                        <p style={{fontSize: "19px"}}><b>How to Set up Google Analytics and Google webmaster tool? </b>
-                        </p>
+                        <Heading>How to Set up Google Analytics and Google webmaster tool?</Heading>
                         <br/>
                         <p>
                             <b>Set up Google Analytics </b>is very simple and you an do it by follow some step {' '}
@@ -626,7 +627,7 @@ class Optimize extends Component {
                 <TextContainer>
                     <div>
                         <br/><br/>
-                        <p style={{fontSize: "19px"}}><b>What is broken link? </b></p>
+                        <Heading>What is broken link?</Heading>
                         <br/>
                         <p>
                             A broken link or dead link is a link on a web page that no longer works because the website
@@ -655,7 +656,7 @@ class Optimize extends Component {
                     </div>
 
                     <div>
-                        <p style={{fontSize: "19px"}}><b>What is this app going to do? </b></p>
+                        <Heading>What is this app going to do?</Heading>
                         <br/>
                         <p>
                             We're going to check all broken link in your store

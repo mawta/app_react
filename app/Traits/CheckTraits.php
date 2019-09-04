@@ -5,6 +5,7 @@ namespace App\Traits;
 use Secomapp\Traits\InstalledShop;
 
 
+
 trait CheckTraits {
     use InstalledShop;
 

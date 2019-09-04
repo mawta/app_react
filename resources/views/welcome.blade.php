@@ -19,6 +19,7 @@
                 'csrfToken' => csrf_token(),
                 'name' => $name,
                 'email' => $email,
+                'docs' => $docs,
             ]) !!};
     </script>
 </head>

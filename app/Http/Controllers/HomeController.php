@@ -14,7 +14,8 @@ class HomeController extends Controller
         $user = auth()->user();
        $name = $this->shopName();
        $email = $user->email;
-       return view('welcome',compact('name','email'));
+       $docs = env('URL_DOCS');
+       return view('welcome',compact('name','email','docs'));
     }
 
     public function fetchHome()
@@ -35,7 +36,6 @@ class HomeController extends Controller
 //            Mail::to('vuduyhuy97@gmail.com')->send(new Question($email,$message,$subject));
         }catch (\Exception $e){
             logger("{$this->shopName()}: send mail fail {$e->getMessage()}, {$e->getTraceAsString()}");
-
         }
     }
 

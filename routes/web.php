@@ -18,5 +18,6 @@ Route::get('/docs', 'HomeController@index')->middleware(['auth-shop', 'active-sh
 Route::get('/test', 'HomeController@index')->middleware(['auth-shop', 'active-shop']);
 Route::get('/home', 'HomeController@index')->middleware(['auth-shop', 'active-shop']);
 Route::get('/', 'HomeController@index')->middleware(['auth-shop', 'active-shop']);
+Route::get('/f', 'TestController@f');
 
 

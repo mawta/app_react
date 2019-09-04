@@ -19,7 +19,7 @@ import {
     TextContainer,
     Collapsible,
     Stack,
-    FooterHelp
+    FooterHelp, Heading, Frame as AppFrame
 } from '@shopify/polaris';
 
 import App from './App'
@@ -143,7 +143,7 @@ class Home extends Component {
                             status='success'
                             action={{
                                 content: '⚡ Read ours docs',
-                                url: 'http://localhost:8000/'
+                                url: window.Laravel.docs
                             }}
                         >
                             <p style={{fontSize: '2.5rem', fontWeight: '600',}}>Start optimizing your SEO with our help
@@ -268,10 +268,59 @@ class Home extends Component {
 
                                 </div>
                                 <br/>
-                                <a href='http://localhost:8000/'><p>Read more</p></a>
+                                <a href={window.Laravel.docs}><p>Read more</p></a>
                             </Card>
                         </Layout.AnnotatedSection>
                     </Layout>
+                    <br/>
+                    <br/>
+                    <Stack vertical={true} spacing="tight" alignment="center">
+                        <Stack.Item fill>
+                            <div className={"image-wrapper mb-1_5"}>
+                                <img src="/images/shopify-review.svg" alt={""}/>
+                            </div>
+                        </Stack.Item>
+                        <Stack.Item>
+                            <Heading>How do you feel about ours app?</Heading>
+                        </Stack.Item>
+                        <Stack.Item>
+                            <div>Kindly leave us a Review! Thank You 😍</div>
+                        </Stack.Item>
+                        <Stack.Item>
+                            <Button
+                                onClick={ () => {
+                                    let popUp =  window.open(
+                                        'https://apps.shopify.com/json-ld-for-seo-1?#modal-show=ReviewListingModal',
+                                        '_blank'
+                                    );
+                                    if (popUp == null || typeof(popUp)=='undefined') {
+                                        alert('Please disable your pop-up blocker and try again.');
+                                    }
+
+                                }
+                                }
+                            >Leave
+                                a review</Button>
+                        </Stack.Item>
+                    </Stack>
+                    <Layout.Section>
+                        <FooterHelp>
+                            Explore more apps from <Button
+                            onClick={ () => {
+                                let popUp =  window.open(
+                                    'https://apps.shopify.com/partners/secomapp',
+                                    '_blank'
+                                );
+                                if (popUp == null || typeof(popUp)=='undefined') {
+                                    alert('Please disable your pop-up blocker and try again.');
+                                }
+
+                            }
+                            }
+                            plain>Secomapp</Button>
+                            .
+                        </FooterHelp>
+                    </Layout.Section>
                 </Page>
             </App>
         )

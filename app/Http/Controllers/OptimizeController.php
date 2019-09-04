@@ -16,6 +16,44 @@ class OptimizeController extends Controller
 {
     use CheckTraits;
 
+    public function createRedirect($params, $client)
+    {
+        return $client->post('redirects.json', 'redirect', [
+            'redirect' => $params,
+        ]);
+    }
+
+    public function fixBrokenLinks()
+    {
+        $user = auth()->user();
+        $clientSecret = env('SHOPIFY_SHARED_SECRET');
+        $shopName = $this->shopName();
+        $accessToken = $user->shop->access_token;
+        $client = new \Secomapp\ClientApi($clientSecret, $shopName, $accessToken);
+        $id = $this->shopId();
+        $brokenLinks = BrokenLink::where('shop_id', $id)->pluck('broken_link')->all();
+        $brokenLinks = $brokenLinks[0] ? $brokenLinks[0] : 0;
+
+        $collectionApi = new \Secomapp\Resources\CustomCollection($client);
+        $collection = $collectionApi->all(['limit' => 1, 'since_id' => 0, 'fields' => 'handle']);
+        $collection = $collection[0]->handle ? $collection[0]->handle : '';
+
+
+        foreach ($brokenLinks as $brokenLink) {
+            try {
+                $params = [
+                    "path" => $brokenLink,
+                    "target" => $collection
+                ];
+                $this->createRedirect($params, $client);
+            } catch (Exception $e) {
+                logger("{$this->shopName()}: scan broken link fail at {$e->getMessage()}, {$e->getTraceAsString()}");
+            }
+        }
+
+    }
+
+
     public function setJsonLd()
     {
         //$shopName = $this->shop();
@@ -141,7 +179,7 @@ class OptimizeController extends Controller
 
     public function scanBrokenlink()
     {
-        try{
+        try {
             shopSetting($this->shopId(), ['crawl_status' => 'processing']);
             $user = auth()->user();
             $url = $this->shopName() . '.myshopify.com';
@@ -151,6 +189,7 @@ class OptimizeController extends Controller
         }
 
     }
+
     public function reScanBrokenlink()
     {
         shopSetting($this->shopId(), ['crawl_status' => 'processing']);
@@ -159,7 +198,6 @@ class OptimizeController extends Controller
         //crawl first time or no broken link in database.
         SendCrawlerReportJob::dispatch("https://" . $url, $this->shopId(), 'done', $user, $user->id)->onQueue('BrokenLinks');
     }
-
 
 
     public function showBrokenlink()
@@ -173,7 +211,7 @@ class OptimizeController extends Controller
             $isCrawled = true;
         }
         $id = $this->shopId();
-        $brokenLinks = BrokenLink::where('shop_id',$id )->pluck('broken_link')->all();
+        $brokenLinks = BrokenLink::where('shop_id', $id)->pluck('broken_link')->all();
         $brokenLinks = $brokenLinks[0] ? $brokenLinks[0] : 0;
         //show broken link.
         return ['isScan' => $isScan, 'brokenLinks' => $brokenLinks, 'isCrawled' => $isCrawled];
@@ -186,7 +224,8 @@ class OptimizeController extends Controller
         $isSitemap = shopSetting($this->shopId(), 'is_sitemap', false);
         $isSitemap = ($isSitemap == 'yes') ? true : false;
         $brokenLink = $this->showBrokenlink();
-        $data += ['isSitemap' => $isSitemap] +$brokenLink;
+        $data += ['isSitemap' => $isSitemap] + $brokenLink;
         return response()->json($data);
     }
+
 }

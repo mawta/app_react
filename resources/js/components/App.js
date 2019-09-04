@@ -130,19 +130,23 @@ export default class App extends React.Component {
                             icon: HomeMajorMonotone,
                             url: '/home',
                             onClick: this.toggleState('isLoading'),
-
+                            selected: this.isSelect('home')
                         },
                         {
                             label: 'Test',
                             icon: TroubleshootMajorMonotone,
                             url: '/test',
                             onClick: this.toggleState('isLoading'),
+                            selected: this.isSelect('test')
+
                         },
                         {
                             label: 'Optimize',
                             icon: WandMajorMonotone,
                             url: '/optimize',
                             onClick: this.toggleState('isLoading'),
+                            selected: this.isSelect('optimize')
+
 
                         },
                         {
@@ -150,6 +154,7 @@ export default class App extends React.Component {
                             icon: ResourcesMajorMonotone,
                             url: '/audit',
                             onClick: this.toggleState('isLoading'),
+                            selected: this.isSelect('audit')
 
                         },
 
@@ -169,7 +174,7 @@ export default class App extends React.Component {
                         {
                             icon: QuestionMarkMajorMonotone,
                             label: 'Docs',
-                            url: 'http://localhost:8000'
+                            url: window.Laravel.docs
                         },
                     ]}
                     action={{
@@ -238,53 +243,7 @@ export default class App extends React.Component {
                     >
                         {loadingMarkup}
                         {this.props.children}
-                        <Stack vertical={true} spacing="tight" alignment="center">
-                            <Stack.Item fill>
-                                <div className={"image-wrapper mb-1_5"}>
-                                    <img src="/images/shopify-review.svg" alt={""}/>
-                                </div>
-                            </Stack.Item>
-                            <Stack.Item>
-                                <Heading>How do you feel about ours app?</Heading>
-                            </Stack.Item>
-                            <Stack.Item>
-                                <div>Kindly leave us a Review! Thank You 😍</div>
-                            </Stack.Item>
-                            <Stack.Item>
-                                <Button
-                                    onClick={ () => {
-                                        let popUp =  window.open(
-                                            'https://apps.shopify.com/json-ld-for-seo-1?#modal-show=ReviewListingModal',
-                                            '_blank'
-                                        );
-                                        if (popUp == null || typeof(popUp)=='undefined') {
-                                            alert('Please disable your pop-up blocker and try again.');
-                                        }
 
-                                    }
-                                    }
-                                >Leave
-                                    a review</Button>
-                            </Stack.Item>
-                        </Stack>
-                        <Layout.Section>
-                            <FooterHelp>
-                                Explore more apps from <Button
-                                onClick={ () => {
-                                    let popUp =  window.open(
-                                        'https://apps.shopify.com/partners/secomapp',
-                                        '_blank'
-                                    );
-                                    if (popUp == null || typeof(popUp)=='undefined') {
-                                        alert('Please disable your pop-up blocker and try again.');
-                                    }
-
-                                }
-                                }
-                                plain>Secomapp</Button>
-                                .
-                            </FooterHelp>
-                        </Layout.Section>
                         {toastMarkup}
                         {modalMarkup}
                         <nav className="nav">
@@ -392,4 +351,8 @@ export default class App extends React.Component {
     handleSubjectChange = (supportSubject) => {
         this.setState({supportSubject});
     };
+
+    isSelect = (object) => {
+        return window.location.href.split('/')[3].includes(object);
+    }
 }

@@ -71929,7 +71929,7 @@ if (false) {} else {
 /*!***************************************************************!*\
   !*** ./node_modules/react-router-dom/esm/react-router-dom.js ***!
   \***************************************************************/
-/*! exports provided: BrowserRouter, HashRouter, Link, NavLink, MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext */
+/*! exports provided: MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext, BrowserRouter, HashRouter, Link, NavLink */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -78362,6 +78362,10 @@ function (_React$Component) {
       });
     });
 
+    _defineProperty(_assertThisInitialized(_this), "isSelect", function (object) {
+      return window.location.href.split('/')[3].includes(object);
+    });
+
     return _this;
   }
 
@@ -78423,22 +78427,26 @@ function (_React$Component) {
           label: 'Home',
           icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_2__["HomeMajorMonotone"],
           url: '/home',
-          onClick: this.toggleState('isLoading')
+          onClick: this.toggleState('isLoading'),
+          selected: this.isSelect('home')
         }, {
           label: 'Test',
           icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_2__["TroubleshootMajorMonotone"],
           url: '/test',
-          onClick: this.toggleState('isLoading')
+          onClick: this.toggleState('isLoading'),
+          selected: this.isSelect('test')
         }, {
           label: 'Optimize',
           icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_2__["WandMajorMonotone"],
           url: '/optimize',
-          onClick: this.toggleState('isLoading')
+          onClick: this.toggleState('isLoading'),
+          selected: this.isSelect('optimize')
         }, {
           label: 'Audit your store',
           icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_2__["ResourcesMajorMonotone"],
           url: '/audit',
-          onClick: this.toggleState('isLoading')
+          onClick: this.toggleState('isLoading'),
+          selected: this.isSelect('audit')
         }]
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["Navigation"].Section, {
         separator: true,
@@ -78450,7 +78458,7 @@ function (_React$Component) {
         }, {
           icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_2__["QuestionMarkMajorMonotone"],
           label: 'Docs',
-          url: 'http://localhost:8000'
+          url: window.Laravel.docs
         }],
         action: {
           icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_2__["ConversationMinor"],
@@ -78502,35 +78510,7 @@ function (_React$Component) {
         navigation: navigationMarkup,
         showMobileNavigation: showMobileNavigation,
         onNavigationDismiss: this.toggleState('showMobileNavigation')
-      }, loadingMarkup, this.props.children, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["Stack"], {
-        vertical: true,
-        spacing: "tight",
-        alignment: "center"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["Stack"].Item, {
-        fill: true
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "image-wrapper mb-1_5"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: "/images/shopify-review.svg",
-        alt: ""
-      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["Stack"].Item, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["Heading"], null, "How do you feel about ours app?")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["Stack"].Item, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Kindly leave us a Review! Thank You \uD83D\uDE0D")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["Stack"].Item, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["Button"], {
-        onClick: function onClick() {
-          var popUp = window.open('https://apps.shopify.com/json-ld-for-seo-1?#modal-show=ReviewListingModal', '_blank');
-
-          if (popUp == null || typeof popUp == 'undefined') {
-            alert('Please disable your pop-up blocker and try again.');
-          }
-        }
-      }, "Leave a review"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["Layout"].Section, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["FooterHelp"], null, "Explore more apps from ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_1__["Button"], {
-        onClick: function onClick() {
-          var popUp = window.open('https://apps.shopify.com/partners/secomapp', '_blank');
-
-          if (popUp == null || typeof popUp == 'undefined') {
-            alert('Please disable your pop-up blocker and try again.');
-          }
-        },
-        plain: true
-      }, "Secomapp"), ".")), toastMarkup, modalMarkup, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
+      }, loadingMarkup, this.props.children, toastMarkup, modalMarkup, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
         className: "nav"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "form-main"
@@ -79171,7 +79151,7 @@ function (_Component) {
         status: "success",
         action: {
           content: '⚡ Read ours docs',
-          url: 'http://localhost:8000/'
+          url: window.Laravel.docs
         }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         style: {
@@ -79253,8 +79233,36 @@ function (_Component) {
       }, "What is Google Analytics and Google Webmaster?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "acoordion-content"
       }, "\xA0\xA0\xA0Google Search Console (previously Webmaster tool) allows to know if your site is infected with malware. It also allows you to communicate with google and adjust aspects of how Google see your websites, such as Internal & External links, by typing which keyword user land on your site, adjust crawling and indexing of your website, click rate of keywords and many more.", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "\xA0\xA0\xA0Google analytics is used to track the website activity of the users such as session duration, pages per session, bounce rate etc. along with the information on the source of the traffic. It can be integrated with Google Ads, with which users can review online campaigns by tracking landing page quality and conversions (goals). Goals might include sales, lead generation, viewing a specific page, or downloading a particular file. Google Analytics' approach is to show high-level, dashboard-type data for the casual user, and more in-depth data further into the report set. Google Analytics analysis can identify poorly performing pages with techniques such as funnel visualization, where visitors came from (referrers), how long they stayed on the website and their geographical position. It also provides more advanced features, including custom visitor segmentation. Google Analytics e-commerce reporting can track sales activity and performance. The e-commerce reports shows a site's transactions, revenue, and many other commerce-related metrics"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-        href: "http://localhost:8000/"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Read more")))))));
+        href: window.Laravel.docs
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Read more"))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Stack"], {
+        vertical: true,
+        spacing: "tight",
+        alignment: "center"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Stack"].Item, {
+        fill: true
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "image-wrapper mb-1_5"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: "/images/shopify-review.svg",
+        alt: ""
+      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Stack"].Item, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Heading"], null, "How do you feel about ours app?")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Stack"].Item, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Kindly leave us a Review! Thank You \uD83D\uDE0D")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Stack"].Item, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Button"], {
+        onClick: function onClick() {
+          var popUp = window.open('https://apps.shopify.com/json-ld-for-seo-1?#modal-show=ReviewListingModal', '_blank');
+
+          if (popUp == null || typeof popUp == 'undefined') {
+            alert('Please disable your pop-up blocker and try again.');
+          }
+        }
+      }, "Leave a review"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Layout"].Section, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["FooterHelp"], null, "Explore more apps from ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Button"], {
+        onClick: function onClick() {
+          var popUp = window.open('https://apps.shopify.com/partners/secomapp', '_blank');
+
+          if (popUp == null || typeof popUp == 'undefined') {
+            alert('Please disable your pop-up blocker and try again.');
+          }
+        },
+        plain: true
+      }, "Secomapp"), "."))));
     }
   }]);
 
@@ -79580,85 +79588,33 @@ function (_Component) {
 
     _defineProperty(_assertThisInitialized(_this), "tabMarkup", function (index) {
       if (index == 0) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _this.checkJson()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["TextContainer"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          style: {
-            fontSize: "19px"
-          }
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "What is Json LD? ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "JSON-LD is a lightweight Linked Data format. It is easy for humans to read and write.", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "It is based on the already successful JSON format and provides a way to help JSON data interoperate at Web-scale.", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "JSON-LD is an ideal data format for programming environments, REST Web services, and unstructured databases"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Google and some other search engine use this as a factor to rank in their search results ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _this.checkJson()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["TextContainer"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Heading"], null, "What is Json LD?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "JSON-LD is a lightweight Linked Data format. It is easy for humans to read and write.", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "It is based on the already successful JSON format and provides a way to help JSON data interoperate at Web-scale.", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "JSON-LD is an ideal data format for programming environments, REST Web services, and unstructured databases"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Google and some other search engine use this as a factor to rank in their search results ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "secomapp-via-text"
-        }, "(source: https://json-ld.org/)")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          style: {
-            fontSize: "19px"
-          }
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "What is this app going to do? ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "We're going to add Json LD to all your store front and products page"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Instead of you doing this manually (which can take hours)- we're going to do this for you automatically in a click \uD83D\uDE0A ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), " And as a bonus - ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "it's 100% FREE!")))));
+        }, "(source: https://json-ld.org/)")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Heading"], null, "What is this app going to do?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "We're going to add Json LD to all your store front and products page"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Instead of you doing this manually (which can take hours)- we're going to do this for you automatically in a click \uD83D\uDE0A ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), " And as a bonus - ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "it's 100% FREE!")))));
       } else if (index == 1) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _this.checkTitle()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["TextContainer"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          style: {
-            fontSize: "19px"
-          }
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Why title is so important? ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "A title tag is an HTML element that specifies the title of a web page.", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Title tags are displayed on search engine results pages (SERPs) as the clickable headline for a given result, and are important for usability, SEO, and social sharing."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Google and some other search engine use this as a factor to rank in their search results ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _this.checkTitle()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["TextContainer"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Heading"], null, "Why title is so important?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "A title tag is an HTML element that specifies the title of a web page.", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Title tags are displayed on search engine results pages (SERPs) as the clickable headline for a given result, and are important for usability, SEO, and social sharing."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Google and some other search engine use this as a factor to rank in their search results ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "secomapp-via-text"
-        }, "(source: https://moz.com/learn/seo/title-tag)")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          style: {
-            fontSize: "19px"
-          }
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "What is this app going to do? ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "We're going to fix your title in every single page of your store"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Instead of you doing this manually (which can take hours)- we're going to do this for you automatically in a click \uD83D\uDE0A", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), " And as a bonus - ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "it's 100% FREE!")))));
+        }, "(source: https://moz.com/learn/seo/title-tag)")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Heading"], null, "What is this app going to do?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "We're going to fix your title in every single page of your store"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Instead of you doing this manually (which can take hours)- we're going to do this for you automatically in a click \uD83D\uDE0A", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), " And as a bonus - ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "it's 100% FREE!")))));
       } else if (index == 2) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _this.checkDes()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["TextContainer"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          style: {
-            fontSize: "19px"
-          }
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "What is a meta description tag? ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "The meta description is an HTML attribute that provides a brief summary of a web page. ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Search engines such as Google often display the meta description\u2014typically up to 160 characters long\u2014in search results where they can highly influence user click-through rates."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Google and some other search engine use this as a factor to rank in their search results ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _this.checkDes()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["TextContainer"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Heading"], null, "What is a meta description tag?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "The meta description is an HTML attribute that provides a brief summary of a web page. ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Search engines such as Google often display the meta description\u2014typically up to 160 characters long\u2014in search results where they can highly influence user click-through rates."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Google and some other search engine use this as a factor to rank in their search results ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "secomapp-via-text"
-        }, "(source: https://moz.com/learn/seo/meta-description)")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          style: {
-            fontSize: "19px"
-          }
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "What is this app going to do? ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "We're going to fix your description tag in every single page of your store"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Instead of you doing this manually (which can take hours)- we're going to do this for you automatically in a click \uD83D\uDE0A", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), " And as a bonus - ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "it's 100% FREE!")))));
+        }, "(source: https://moz.com/learn/seo/meta-description)")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Heading"], null, "What is this app going to do?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "We're going to fix your description tag in every single page of your store"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Instead of you doing this manually (which can take hours)- we're going to do this for you automatically in a click \uD83D\uDE0A", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), " And as a bonus - ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "it's 100% FREE!")))));
       } else if (index == 3) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _this.checkSitemap()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["TextContainer"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          style: {
-            fontSize: "19px"
-          }
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "What is a sitemap? ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "A sitemap is a file where you provide information about the pages, videos, and other files on your site, and the relationships between them. Search engines like Google read this file to more intelligently crawl your site. A sitemap tells the crawler which files you think are important in your site, and also provides valuable information about these files: for example, for pages, when the page was last updated, how often the page is changed, and any alternate language versions of a page."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Google and some other search engine use this as a factor to rank in their search results ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _this.checkSitemap()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["TextContainer"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Heading"], null, "What is a sitemap?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "A sitemap is a file where you provide information about the pages, videos, and other files on your site, and the relationships between them. Search engines like Google read this file to more intelligently crawl your site. A sitemap tells the crawler which files you think are important in your site, and also provides valuable information about these files: for example, for pages, when the page was last updated, how often the page is changed, and any alternate language versions of a page."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Google and some other search engine use this as a factor to rank in their search results ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "secomapp-via-text"
-        }, "(source: https://support.google.com/webmasters/answer/156184)")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          style: {
-            fontSize: "19px"
-          }
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "What is this app going to do? ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "We're going to submit your sitemap to google."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Instead of you doing this manually (which can take hours)- we're going to do this for you automatically in a click \uD83D\uDE0A", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), " And as a bonus - ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "it's 100% FREE!")))));
+        }, "(source: https://support.google.com/webmasters/answer/156184)")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Heading"], null, "What is this app going to do?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "We're going to submit your sitemap to google."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Instead of you doing this manually (which can take hours)- we're going to do this for you automatically in a click \uD83D\uDE0A", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), " And as a bonus - ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "it's 100% FREE!")))));
       } else if (index == 4) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _this.checkAnalytic(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), _this.checkWebmasterTool()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["TextContainer"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          style: {
-            fontSize: "19px"
-          }
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "What is Google webmaster tool? ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Google Search Console (previously Webmaster tool) allows to know if your site is infected with malware. It also allows you to communicate with google and adjust aspects of how Google see your websites, such as Internal & External links, by typing which keyword user land on your site, adjust crawling and indexing of your website, click rate of keywords and many more."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          style: {
-            fontSize: "19px"
-          }
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "What is Google Analytics? ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Google analytics is used to track the website activity of the users such as session duration, pages per session, bounce rate etc. along with the information on the source of the traffic. It can be integrated with Google Ads, with which users can review online campaigns by tracking landing page quality and conversions (goals). Goals might include sales, lead generation, viewing a specific page, or downloading a particular file. Google Analytics' approach is to show high-level, dashboard-type data for the casual user, and more in-depth data further into the report set. Google Analytics analysis can identify poorly performing pages with techniques such as funnel visualization, where visitors came from (referrers), how long they stayed on the website and their geographical position. It also provides more advanced features, including custom visitor segmentation. Google Analytics e-commerce reporting can track sales activity and performance. The e-commerce reports shows a site's transactions, revenue, and many other commerce-related metrics."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Google search engine use this as a factor to rank in their search results ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _this.checkAnalytic(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), _this.checkWebmasterTool()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["TextContainer"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Heading"], null, "What is Google webmaster tool?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Google Search Console (previously Webmaster tool) allows to know if your site is infected with malware. It also allows you to communicate with google and adjust aspects of how Google see your websites, such as Internal & External links, by typing which keyword user land on your site, adjust crawling and indexing of your website, click rate of keywords and many more."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Heading"], null, "What is Google Analytics?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Google analytics is used to track the website activity of the users such as session duration, pages per session, bounce rate etc. along with the information on the source of the traffic. It can be integrated with Google Ads, with which users can review online campaigns by tracking landing page quality and conversions (goals). Goals might include sales, lead generation, viewing a specific page, or downloading a particular file. Google Analytics' approach is to show high-level, dashboard-type data for the casual user, and more in-depth data further into the report set. Google Analytics analysis can identify poorly performing pages with techniques such as funnel visualization, where visitors came from (referrers), how long they stayed on the website and their geographical position. It also provides more advanced features, including custom visitor segmentation. Google Analytics e-commerce reporting can track sales activity and performance. The e-commerce reports shows a site's transactions, revenue, and many other commerce-related metrics."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Google search engine use this as a factor to rank in their search results ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "secomapp-via-text"
-        }, "(source: https://en.wikipedia.org/wiki/Google_Analytics)")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          style: {
-            fontSize: "19px"
-          }
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "How to Set up Google Analytics and Google webmaster tool? ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Set up Google Analytics "), "is very simple and you an do it by follow some step ", ' ', react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        }, "(source: https://en.wikipedia.org/wiki/Google_Analytics)")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Heading"], null, "How to Set up Google Analytics and Google webmaster tool?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Set up Google Analytics "), "is very simple and you an do it by follow some step ", ' ', react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
           href: "https://help.shopify.com/en/manual/reports-and-analytics/google-analytics/google-analytics-setup"
         }, "in here"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "With Google webmaster tool"), " we already have a very clearly step by step guild \uD83D\uDE0A", ' ', react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
           href: "http://localhost:8000/webmaster"
         }, "in here"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), " And as a bonus - ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "it's 100% FREE!")))));
       } else if (index == 5) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _this.checkBrokenLink()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["TextContainer"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          style: {
-            fontSize: "19px"
-          }
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "What is broken link? ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "A broken link or dead link is a link on a web page that no longer works because the website is encountering one or more of the reasons below.", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Reasons for broken links: ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "- An improper URL entered for the link by the website owner.", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "- The destination website removed the linked web page (causing what is known as a 404 error).", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "- The destination website permanently moved or no longer exists.", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "- The user has software or is behind a firewall that blocks access to the destination website.", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "- The website owner linked to a site that is behind a firewall that does not allow outside access (such as an Intranet site or a restricted access area on a website).", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Broken links can be problematic for website visitors, making them unable to access the desired resource or information. These users may decide to make use of another site to find the necessary information elsewhere. A site that hasn't been updated or checked for a long time may suffer from link rot, which is a term used to describe a site with dozens of broken links."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Google and some other search engine use this as a factor to rank in their search results ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _this.checkBrokenLink()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["TextContainer"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Heading"], null, "What is broken link?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "A broken link or dead link is a link on a web page that no longer works because the website is encountering one or more of the reasons below.", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Reasons for broken links: ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "- An improper URL entered for the link by the website owner.", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "- The destination website removed the linked web page (causing what is known as a 404 error).", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "- The destination website permanently moved or no longer exists.", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "- The user has software or is behind a firewall that blocks access to the destination website.", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "- The website owner linked to a site that is behind a firewall that does not allow outside access (such as an Intranet site or a restricted access area on a website).", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Broken links can be problematic for website visitors, making them unable to access the desired resource or information. These users may decide to make use of another site to find the necessary information elsewhere. A site that hasn't been updated or checked for a long time may suffer from link rot, which is a term used to describe a site with dozens of broken links."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Google and some other search engine use this as a factor to rank in their search results ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "secomapp-via-text"
-        }, "(source: https://www.computerhope.com/jargon/b/broken_link.htm)")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          style: {
-            fontSize: "19px"
-          }
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "What is this app going to do? ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "We're going to check all broken link in your store"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Instead of you doing this manually (which can take hours)- we're going to do this for you automatically in a click \uD83D\uDE0A", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), " And as a bonus - ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "it's 100% FREE!")))));
+        }, "(source: https://www.computerhope.com/jargon/b/broken_link.htm)")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Heading"], null, "What is this app going to do?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "We're going to check all broken link in your store"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Instead of you doing this manually (which can take hours)- we're going to do this for you automatically in a click \uD83D\uDE0A", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), " And as a bonus - ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "it's 100% FREE!")))));
       }
     });
 
@@ -79757,7 +79713,7 @@ function (_Component) {
           fontSize: '2.5rem',
           fontWeight: '600'
         }
-      }, "Let optimize your SEO and get more sale \uD83E\uDD11!"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "it is pretty easy, just a couple of clicks \uD83D\uDC47")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Card"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Tabs"], {
+      }, "Let optimize your SEO and get more sales \uD83E\uDD11!"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "it is pretty easy, just a couple of clicks \uD83D\uDC47")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Card"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_4__["Tabs"], {
         tabs: tabs,
         selected: selected,
         onSelect: this.handleTabChange,
@@ -79854,7 +79810,8 @@ function (_Component) {
       sortedRows: '',
       countRows: 0,
       name: window.Laravel.name,
-      since_id: 0,
+      cursor: null,
+      cursor1: null,
       resourcePickerOpen: false
     });
 
@@ -79898,11 +79855,12 @@ function (_Component) {
       _this.setHeaderAxio();
 
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(window.Laravel.baseUrl + '/api/next-product', {
-        since_id: _this.state.since_id
+        cursor: _this.state.cursor
       }).then(function (response) {
         _this.setState({
           sortedRows: response.data.sortedRows,
-          since_id: response.data.since_id
+          cursor: response.data.cursor,
+          cursor1: response.data.cursor1
         });
       })["catch"](function (error) {
         console.log(error);
@@ -79913,11 +79871,12 @@ function (_Component) {
       _this.setHeaderAxio();
 
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(window.Laravel.baseUrl + '/api/pre-product', {
-        since_id: _this.state.since_id
+        cursor1: _this.state.cursor1
       }).then(function (response) {
         _this.setState({
           sortedRows: response.data.sortedRows,
-          since_id: response.data.since_id
+          cursor1: response.data.cursor1,
+          cursor: response.data.cursor
         });
       })["catch"](function (error) {
         console.log(error);
@@ -79949,7 +79908,8 @@ function (_Component) {
           articleLink: response.data.articleLink,
           collectionLink: response.data.collectionLink,
           sortedRows: response.data.sortedRows,
-          since_id: response.data.since_id
+          cursor: response.data.cursor,
+          cursor1: response.data.cursor1
         });
       })["catch"](function (error) {
         console.log(error);
@@ -80065,16 +80025,39 @@ function (_Component) {
             alert('Please disable your pop-up blocker and try again.');
           }
         }
-      }, "Test"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_5__["Card"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_5__["DataTable"], {
+      }, "Test"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_5__["Card"], {
+        title: "Product Table",
+        sectioned: true
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_5__["DataTable"], {
         columnContentTypes: ['text', 'text', 'text', 'text'],
-        headings: ['Id', 'Product', 'Image', 'Test'],
+        headings: [react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          style: {
+            fontWeight: '600'
+          }
+        }, "Id"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          style: {
+            fontWeight: '600'
+          }
+        }, "Product"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          style: {
+            fontWeight: '600'
+          }
+        }, "Image"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          style: {
+            fontWeight: '600'
+          }
+        }, "Test")],
         rows: rows,
         defaultSortDirection: "descending",
         initialSortColumnIndex: 0,
         verticalAlign: "middle"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "secomapp-pagination"
-      }, "\xA0\xA0\xA0\xA0", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_5__["Button"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_5__["Button"], {
+        primary: true,
+        onClick: this.pre,
+        icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_3__["ArrowLeftMinor"]
+      }), "\xA0 \xA0", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_shopify_polaris__WEBPACK_IMPORTED_MODULE_5__["Button"], {
         primary: true,
         onClick: this.next,
         icon: _shopify_polaris_icons__WEBPACK_IMPORTED_MODULE_3__["ArrowRightMinor"]

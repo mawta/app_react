@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\File;
 use App\Jobs\AuditJob;
 use Illuminate\Support\Facades\Storage;
 use Exception;
+use Secomapp\ShopifyGraphql\Resources\Product;
+use Secomapp\ShopifyGraphql\GraphqlClient;
 
 class TestController extends Controller
 {
@@ -15,20 +17,27 @@ class TestController extends Controller
 
     public function fetchTest(Request $request)
     {
-        $user= auth()->user();
+        $user = auth()->user();
         $clientSecret = env('SHOPIFY_SHARED_SECRET');
         $shopName = $this->shopName();
-        $accessToken =  $user->shop->access_token;
+        $accessToken = $user->shop->access_token;
 
-        $sortedRows = $this->fetchProduct(0,10);
-        $id =end($sortedRows)[0];
+        $sortedRows = $this->fetchProduct(null);
+        $cursor = end($sortedRows)['cursor'];
+        $cursor1 = $sortedRows[0]['cursor'];
+        $arr = [];
+        foreach ($sortedRows as $item) {
+            unset($item['cursor']);
+            array_push($arr, $item);
+        }
+        $sortedRows = $arr;
         $client = new \Secomapp\ClientApi($clientSecret, $shopName, $accessToken);
         $blogApi = new \Secomapp\Resources\Blog($client);
-        $blog = $blogApi->all(['limit'=>1, 'since_id'=>0, 'fields'=>'handle,id']);
+        $blog = $blogApi->all(['limit' => 1, 'since_id' => 0, 'fields' => 'handle,id']);
         $articleApi = new \Secomapp\Resources\Article($client);
         $article = $articleApi->all($blog[0]->id);
         $collectionApi = new \Secomapp\Resources\CustomCollection($client);
-        $collection = $collectionApi->all(['limit'=>1, 'since_id'=>0, 'fields'=>'handle']);
+        $collection = $collectionApi->all(['limit' => 1, 'since_id' => 0, 'fields' => 'handle']);
 
         $blog = $blog[0]->handle ? $blog[0]->handle : '';
         $article = $article[0]->handle ? $article[0]->handle : '';
@@ -39,38 +48,120 @@ class TestController extends Controller
                 'articleLink' => $article,
                 'collectionLink' => $collection,
                 'sortedRows' => $sortedRows,
-                'since_id' => $id,
+                'cursor' => $cursor,
+                'cursor1' => $cursor1,
             ]
         );
     }
 
-    public function next(Request $request){
-        $since_id = $request->post('since_id');
-        $sortedRows = $since_id ? $this->fetchProduct($since_id,10) :$this->fetchProduct(0,10);
-        $id =end($sortedRows)[0];
-        return response()->json(
-            [
-                'sortedRows' => $sortedRows,
-                'since_id' => $id,
-            ]
-        );
-    }
-    public function pre(Request $request){
-
-    }
-    public function fetchProduct($since_id,$limit)
+    public function next(Request $request)
     {
-        $user= auth()->user();
-        $clientSecret = env('SHOPIFY_SHARED_SECRET');
+        try {
+            $cursor = (string)$request->post('cursor');
+            $sortedRows = $cursor ? $this->fetchProduct($cursor) : $this->fetchProduct(null);
+            $cursor = end($sortedRows)['cursor'];
+            $cursor1 = $sortedRows[0]['cursor'];
+            $arr = [];
+            foreach ($sortedRows as $item) {
+                unset($item['cursor']);
+                array_push($arr, $item);
+            }
+            $sortedRows = $arr;
+            return response()->json(
+                [
+                    'sortedRows' => $sortedRows,
+                    'cursor' => $cursor,
+                    'cursor1' => $cursor1,
+                ]
+            );
+        } catch (Exception $e) {
+
+        }
+    }
+
+    public function pre(Request $request)
+    {
+        try {
+            $cursor = (string)$request->post('cursor1');
+            $sortedRows = $this->fetchProductBefore($cursor);
+            $cursor1 = $sortedRows[0]['cursor'];
+            $cursor = end($sortedRows)['cursor'];
+            $arr = [];
+            foreach ($sortedRows as $item) {
+                unset($item['cursor']);
+                array_push($arr, $item);
+            }
+            $sortedRows = $arr;
+            return response()->json(
+                [
+                    'sortedRows' => $sortedRows,
+                    'cursor1' => $cursor1,
+                    'cursor' => $cursor,
+                ]
+            );
+        } catch (Exception $e) {
+
+        }
+    }
+
+    public function fetchProduct($cursor)
+    {
+        $user = auth()->user();
         $shopName = $this->shopName();
-        $accessToken =  $user->shop->access_token;
-        $client = new \Secomapp\ClientApi($clientSecret, $shopName, $accessToken);
-        $productApi = new \Secomapp\Resources\Product($client);
-        $products = $productApi->all(['limit'=>$limit, 'since_id'=>$since_id, 'fields'=>'title,handle,id,image']);
-        $arr =[];
-        foreach ($products as $product) {
-            $temp = [$product->id,$product->title,$product->image->src,$product->handle];
-            array_push($arr,$temp);
+        $accessToken = $user->shop->access_token;
+        $client = new GraphqlClient(null, $shopName, $accessToken);
+        $graphShopify = new \Secomapp\ShopifyGraphql\ShopifyGraphql($client);
+        $productGraphql = new Product($graphShopify);
+        $params = [
+            'fields' => ['title', 'handle', 'id', "images (first: 1) {
+          edges {
+            node {
+              src
+            }
+          }
+        }"],
+            'first' => 10,
+            'after' => $cursor,
+        ];
+        $products = $productGraphql->all($params);
+        $arr = [];
+        if (count($products) > 0) {
+            foreach ($products as $product) {
+                $id = explode('/', $product->node->id)[4];
+                $temp = [$id, $product->node->title, $product->node->images->edges[0]->node->src, $product->node->handle, 'cursor' => $product->cursor];
+                array_push($arr, $temp);
+            }
+        }
+        return $arr;
+    }
+
+    public function fetchProductBefore($cursor)
+    {
+        $user = auth()->user();
+        $shopName = $this->shopName();
+        $accessToken = $user->shop->access_token;
+        $client = new GraphqlClient(null, $shopName, $accessToken);
+        $graphShopify = new \Secomapp\ShopifyGraphql\ShopifyGraphql($client);
+        $productGraphql = new Product($graphShopify);
+        $params = [
+            'fields' => ['title', 'handle', 'id', "images (first: 1) {
+          edges {
+            node {
+              src
+            }
+          }
+        }"],
+            'last' => 10,
+            'before' => $cursor,
+        ];
+        $products = $productGraphql->all($params);
+        $arr = [];
+        if (count($products) > 0) {
+            foreach ($products as $product) {
+                $id = explode('/', $product->node->id)[4];
+                $temp = [$id, $product->node->title, $product->node->images->edges[0]->node->src, $product->node->handle, 'cursor' => $product->cursor];
+                array_push($arr, $temp);
+            }
         }
         return $arr;
     }

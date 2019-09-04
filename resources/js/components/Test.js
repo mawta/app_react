@@ -45,7 +45,8 @@ class Test extends Component {
         sortedRows: '',
         countRows: 0,
         name: window.Laravel.name,
-        since_id: 0,
+        cursor: null,
+        cursor1: null,
         resourcePickerOpen: false,
     };
     setHeaderAxio = () => {
@@ -65,7 +66,8 @@ class Test extends Component {
                     articleLink: response.data.articleLink,
                     collectionLink: response.data.collectionLink,
                     sortedRows: response.data.sortedRows,
-                    since_id: response.data.since_id,
+                    cursor: response.data.cursor,
+                    cursor1: response.data.cursor1,
                 })
             })
             .catch(function (error) {
@@ -231,7 +233,7 @@ class Test extends Component {
                     <br/>
                     <hr/>
 
-                    <Card>
+                    <Card title="Product Table" sectioned>
                         <DataTable
                             columnContentTypes={[
                                 'text',
@@ -240,10 +242,10 @@ class Test extends Component {
                                 'text',
                             ]}
                             headings={[
-                                'Id',
-                                'Product',
-                                'Image',
-                                'Test',
+                                <p style={{fontWeight: '600'}}>Id</p>,
+                                <p style={{fontWeight: '600'}}>Product</p>,
+                                <p style={{fontWeight: '600'}}>Image</p>,
+                                <p style={{fontWeight: '600'}}>Test</p>,
                             ]}
                             rows={rows}
                             defaultSortDirection="descending"
@@ -252,7 +254,10 @@ class Test extends Component {
                         />
                         <div>
                             <div className="secomapp-pagination">
-                                &nbsp;&nbsp;&nbsp;&nbsp;<Button primary onClick={this.next} icon={ArrowRightMinor}/>
+                                <Button primary onClick={this.pre} icon={ArrowLeftMinor}/>
+                                &nbsp;
+                                &nbsp;
+                                <Button primary onClick={this.next} icon={ArrowRightMinor}/>
                             </div>
                         </div>
                     </Card>
@@ -295,12 +300,13 @@ class Test extends Component {
     next = () =>{
         this.setHeaderAxio();
         axios.post(window.Laravel.baseUrl + '/api/next-product',{
-            since_id : this.state.since_id,
+            cursor : this.state.cursor,
         })
             .then(response => {
                 this.setState({
                     sortedRows: response.data.sortedRows,
-                    since_id: response.data.since_id,
+                    cursor: response.data.cursor,
+                    cursor1: response.data.cursor1,
                 })
             })
             .catch(function (error) {
@@ -310,12 +316,13 @@ class Test extends Component {
     pre = ()=>{
         this.setHeaderAxio();
         axios.post(window.Laravel.baseUrl + '/api/pre-product',{
-            since_id : this.state.since_id,
+            cursor1 : this.state.cursor1,
         })
             .then(response => {
                 this.setState({
                     sortedRows: response.data.sortedRows,
-                    since_id: response.data.since_id,
+                    cursor1: response.data.cursor1,
+                    cursor: response.data.cursor,
                 })
             })
             .catch(function (error) {
